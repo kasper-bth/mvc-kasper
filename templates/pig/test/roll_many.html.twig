@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Pig Game{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Roll many dice</h1>
+
+        <p>You rolled {{ num_dices }} dices. Here is the value of the dices.</p>
+
+        <ul>
+        {% for roll in diceRoll %}
+            <li>{{ roll }}</li>
+        {% endfor %}
+        </ul>
+
+        <p>Try to roll 
+            <a href="{{ path('test_roll_num_dices', {num: 5}) }}">5</a>
+            or 
+            <a href="{{ path('test_roll_num_dices', {num: 10}) }}">10</a>
+            dices.
+        </p>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; Copyright ägs av mig och bilder tillåts att användas.</p>
+    </footer>
+
+{% endblock %}

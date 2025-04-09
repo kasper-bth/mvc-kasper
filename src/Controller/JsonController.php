@@ -29,7 +29,7 @@ class JsonController
 
     #[Route("/api/quote")]
     public function jsonQuote(): Response
-    {   
+    {
         date_default_timezone_set('Europe/Stockholm');
 
         $quotes = ["Den som vill leva om sitt liv har inte levat. --Karen Blixen",
