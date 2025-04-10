@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Session Data{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1>Session Contents</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value in session %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>
+                    {% if value is iterable %}
+                        <ul>
+                            {% for item in value %}
+                                <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        {{ value }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<a href="{{ path('card_session_delete') }}">Clear Session</a>
+<a href="{{ path('card_home') }}">Back to Card Home</a>
+{% endblock %}

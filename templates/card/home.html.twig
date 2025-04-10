@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Card{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1>Card</h1>
+
+        <p>Det här är en kortlek och det finns olika delar som man kan testa denna kortlek på.</p>
+
+        <ul>
+            <li><a href="{{ path('card_deck') }}">Deck</a></li>
+            <li><a href="{{ path('card_deck_shuffle') }}">Shuffle</a></li>
+            <li><a href="{{ path('card_deck_draw') }}">Draw</a></li>
+        </ul>
+
+        <p>
+            Min kortlek är uppbyggd på fyra olika klasser. Första klassen är Card.php som har all data om ett kort.
+            Sedan så är CardHand.php och DecOfCards.php en komposition av flera Card objekt. Min sista klass CardGraphic.php
+            ärver från Card.php för att visa upp korten grafiskt.
+        </p>
+
+        <div class="about-image">
+            <img width=300px height=250px src="{{ asset('img/uml.png') }}" alt="UML diagram">
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; Copyright ägs av mig och bilder tillåts att användas.</p>
+    </footer>
+
+{% endblock %}

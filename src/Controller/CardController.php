@@ -1,11 +1,14 @@
 <?php
-
+// src/Controller/CardController.php
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Card\DeckOfCards;
+use App\Card\DeckOfCardsWithJokers;
 use App\Card\CardHand;
 
 class CardController extends AbstractController
@@ -17,9 +20,12 @@ class CardController extends AbstractController
     }
 
     #[Route("/card/deck", name: "card_deck")]
-    public function deck(): Response
+    public function deck(
+        SessionInterface $session
+    ): Response
     {
-        $deck = new DeckOfCards();
+        $deck = $session->get('deck') ?? new DeckOfCards();
+        $session->set('deck', $deck);
         
         return $this->render('card/deck.html.twig', [
             'deck' => $deck->getString(),
@@ -28,10 +34,13 @@ class CardController extends AbstractController
     }
 
     #[Route("/card/deck/shuffle", name: "card_deck_shuffle")]
-    public function shuffle(): Response
+    public function shuffle(
+        SessionInterface $session
+    ): Response
     {
-        $deck = new DeckOfCards();
+        $deck = $session->get('deck') ?? new DeckOfCards();
         $deck->shuffle();
+        $session->set('deck', $deck);
         
         return $this->render('card/shuffle.html.twig', [
             'deck' => $deck->getString(),
@@ -40,11 +49,13 @@ class CardController extends AbstractController
     }
 
     #[Route("/card/deck/draw", name: "card_deck_draw")]
-    public function draw(): Response
+    public function draw(
+        SessionInterface $session
+    ): Response
     {
-        $deck = new DeckOfCards();
-        $deck->shuffle();
+        $deck = $session->get('deck') ?? new DeckOfCards();
         $card = $deck->drawCard();
+        $session->set('deck', $deck);
         
         return $this->render('card/draw.html.twig', [
             'card' => $card ? $card->getAsString() : null,
@@ -53,10 +64,12 @@ class CardController extends AbstractController
     }
 
     #[Route("/card/deck/draw/{number<\d+>}", name: "card_deck_draw_number")]
-    public function drawNumber(int $number): Response
+    public function drawNumber(
+        int $number, 
+        SessionInterface $session
+    ): Response
     {
-        $deck = new DeckOfCards();
-        $deck->shuffle();
+        $deck = $session->get('deck') ?? new DeckOfCards();
         $hand = new CardHand();
         
         for ($i = 0; $i < $number; $i++) {
@@ -66,9 +79,51 @@ class CardController extends AbstractController
             }
         }
         
+        $session->set('deck', $deck);
+        $session->set('hand', $hand);
+        
         return $this->render('card/draw_number.html.twig', [
             'cards' => $hand->getString(),
             'count' => $deck->getNumberCards()
         ]);
+    }
+
+    #[Route("/session", name: "card_session")]
+    public function session(
+        SessionInterface $session
+    ): Response
+    {
+        $sessionData = $session->all();
+        
+        $displayData = [];
+        foreach ($sessionData as $key => $value) {
+            if (is_object($value)) {
+                if (method_exists($value, 'getString')) {
+                    $displayData[$key] = $value->getString();
+                } elseif (method_exists($value, 'getAsString')) {
+                    $displayData[$key] = $value->getAsString();
+                } else {
+                    $displayData[$key] = get_class($value);
+                }
+            } else {
+                $displayData[$key] = $value;
+            }
+        }
+        
+        return $this->render('card/session.html.twig', [
+            'session' => $displayData
+        ]);
+    }
+
+    #[Route("/session/delete", name: "card_session_delete")]
+    public function deleteSession(
+        SessionInterface $session
+    ): Response
+    {
+        $session->clear();
+        
+        $this->addFlash('notice', 'Session has been cleared successfully!');
+        
+        return $this->redirectToRoute('card_home');
     }
 }
