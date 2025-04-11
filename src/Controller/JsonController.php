@@ -58,7 +58,7 @@ class JsonController
     #[Route("/api/deck", name: "api_deck", methods: ['GET'])]
     public function jsonDeck(SessionInterface $session): Response
     {
-        $deck = $session->get('api_deck');
+        $deck = $session->get('api_deck') ?? new DeckOfCards();
         $sortedCards = $deck->getSortedCards();
 
         $cardStrings = array_map(function ($card) {
