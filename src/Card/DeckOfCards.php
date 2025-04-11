@@ -4,7 +4,6 @@ namespace App\Card;
 
 class DeckOfCards
 {
-    /** @var Card[] */
     protected array $cards = [];
 
     public function __construct()

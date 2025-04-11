@@ -4,7 +4,6 @@ namespace App\Card;
 
 class CardHand
 {
-    /** @var Card[] */
     private array $cards = [];
 
     public function addCard(Card $card): void

@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use App\Card\DeckOfCards;
 
 class JsonController
 {
@@ -18,8 +21,6 @@ class JsonController
             'lucky-message' => 'Hi there!',
         ];
 
-        // return new JsonResponse($data);
-
         $response = new JsonResponse($data);
         $response->setEncodingOptions(
             $response->getEncodingOptions() | JSON_PRETTY_PRINT
@@ -32,12 +33,13 @@ class JsonController
     {
         date_default_timezone_set('Europe/Stockholm');
 
-        $quotes = ["Den som vill leva om sitt liv har inte levat. --Karen Blixen",
-        "Hat dämpas aldrig av mer hat, det kan bara avväpnas genom vänskap och förståelse. --Buddha",
-        "Jag har så enkel smak. Jag vill bara ha det bästa av allt. --Oscar Wilde"];
+        $quotes = [
+            "Den som vill leva om sitt liv har inte levat. --Karen Blixen",
+            "Hat dämpas aldrig av mer hat, det kan bara avväpnas genom vänskap och förståelse. --Buddha",
+            "Jag har så enkel smak. Jag vill bara ha det bästa av allt. --Oscar Wilde"
+        ];
 
         $randomIndex = array_rand($quotes);
-
         $randomQuote = $quotes[$randomIndex];
 
         $data = [
@@ -46,7 +48,91 @@ class JsonController
             'time' => date('H:i:s')
         ];
 
-        // return new JsonResponse($data);
+        $response = new JsonResponse($data);
+        $response->setEncodingOptions(
+            $response->getEncodingOptions() | JSON_PRETTY_PRINT
+        );
+        return $response;
+    }
+
+    #[Route("/api/deck", name: "api_deck", methods: ['GET'])]
+    public function jsonDeck(SessionInterface $session): Response
+    {
+        $deck = $session->get('api_deck');
+        $sortedCards = $deck->getSortedCards();
+
+        $cardStrings = array_map(function ($card) {
+            return $card->getAsString();
+        }, $sortedCards);
+
+        $data = [
+            'deck' => $cardStrings,
+            'count' => count($cardStrings)
+        ];
+
+        $response = new JsonResponse($data);
+        $response->setEncodingOptions(
+            $response->getEncodingOptions() | JSON_PRETTY_PRINT
+        );
+        return $response;
+    }
+
+    #[Route("/api/deck/shuffle", name: "api_deck_shuffle", methods: ['GET', 'POST'])]
+    public function jsonShuffle(SessionInterface $session): Response
+    {
+        $deck = new DeckOfCards();
+        $deck->shuffle();
+
+        $session->set('api_deck', $deck);
+
+        $cardStrings = array_map(function ($card) {
+            return $card->getAsString();
+        }, $deck->getCards());
+
+        $data = [
+            'deck' => $cardStrings,
+            'count' => count($cardStrings),
+            'message' => 'Deck has been shuffled'
+        ];
+
+        $response = new JsonResponse($data);
+        $response->setEncodingOptions(
+            $response->getEncodingOptions() | JSON_PRETTY_PRINT
+        );
+        return $response;
+    }
+
+    #[Route("/api/deck/draw", name: "api_deck_draw", methods: ['GET', 'POST'])]
+    public function jsonDraw(SessionInterface $session): Response
+    {
+        return $this->drawCards($session, 1);
+    }
+
+    #[Route("/api/deck/draw/{number<\d+>}", name: "api_deck_draw_number", methods: ['GET', 'POST'])]
+    public function jsonDrawNumber(SessionInterface $session, int $number): Response
+    {
+        return $this->drawCards($session, $number);
+    }
+
+    private function drawCards(SessionInterface $session, int $number): Response
+    {
+        $deck = $session->get('api_deck');
+
+        $drawnCards = [];
+        for ($i = 0; $i < $number; $i++) {
+            $card = $deck->drawCard();
+            if ($card) {
+                $drawnCards[] = $card->getAsString();
+            }
+        }
+
+        $session->set('api_deck', $deck);
+
+        $data = [
+            'drawn_cards' => $drawnCards,
+            'remaining_cards' => $deck->getNumberCards(),
+            'message' => count($drawnCards) . ' card(s) drawn'
+        ];
 
         $response = new JsonResponse($data);
         $response->setEncodingOptions(
