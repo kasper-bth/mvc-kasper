@@ -31,7 +31,7 @@ class CardGraphic extends Card
     {
         $symbol = self::VALUE_SYMBOLS[$this->value] ?? $this->value;
         $suitSymbol = self::SUIT_SYMBOLS[$this->suit] ?? $this->suit;
-        
+
         return $symbol . $suitSymbol;
     }
 

@@ -16,7 +16,7 @@ class DeckOfCards
     {
         $suits = ['hearts', 'diamonds', 'clubs', 'spades'];
         $values = ['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king'];
-    
+
         foreach ($suits as $suit) {
             foreach ($values as $value) {
                 $this->cards[] = new CardGraphic($suit, $value);
@@ -38,12 +38,12 @@ class DeckOfCards
     {
         $suitsOrder = ['clubs', 'diamonds', 'hearts', 'spades'];
         $valuesOrder = [
-            'ace', '2', '3', '4', '5', '6', '7', 
+            'ace', '2', '3', '4', '5', '6', '7',
             '8', '9', '10', 'jack', 'queen', 'king'
         ];
-        
+
         $sortedCards = [];
-        
+
         foreach ($suitsOrder as $suit) {
             foreach ($valuesOrder as $value) {
                 foreach ($this->cards as $card) {
@@ -54,7 +54,7 @@ class DeckOfCards
                 }
             }
         }
-        
+
         return $sortedCards;
     }
 

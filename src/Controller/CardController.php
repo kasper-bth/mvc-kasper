@@ -1,14 +1,12 @@
 <?php
-// src/Controller/CardController.php
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Card\DeckOfCards;
-use App\Card\DeckOfCardsWithJokers;
 use App\Card\CardHand;
 
 class CardController extends AbstractController
@@ -23,13 +21,13 @@ class CardController extends AbstractController
     public function deck(SessionInterface $session): Response
     {
         $deck = $session->get('deck');
-        
+
         $sortedCards = $deck->getSortedCards();
-        
-        $sortedCardStrings = array_map(function($card) {
+
+        $sortedCardStrings = array_map(function ($card) {
             return $card->getAsString();
         }, $sortedCards);
-        
+
         return $this->render('card/deck.html.twig', [
             'deck' => $sortedCardStrings,
             'count' => $deck->getNumberCards()
@@ -53,12 +51,11 @@ class CardController extends AbstractController
     #[Route("/card/deck/draw", name: "card_deck_draw")]
     public function draw(
         SessionInterface $session
-    ): Response
-    {
+    ): Response {
         $deck = $session->get('deck') ?? new DeckOfCards();
         $card = $deck->drawCard();
         $session->set('deck', $deck);
-        
+
         return $this->render('card/draw.html.twig', [
             'card' => $card ? $card->getAsString() : null,
             'count' => $deck->getNumberCards()
@@ -67,23 +64,22 @@ class CardController extends AbstractController
 
     #[Route("/card/deck/draw/{number<\d+>}", name: "card_deck_draw_number")]
     public function drawNumber(
-        int $number, 
+        int $number,
         SessionInterface $session
-    ): Response
-    {
+    ): Response {
         $deck = $session->get('deck') ?? new DeckOfCards();
         $hand = new CardHand();
-        
+
         for ($i = 0; $i < $number; $i++) {
             $card = $deck->drawCard();
             if ($card) {
                 $hand->addCard($card);
             }
         }
-        
+
         $session->set('deck', $deck);
         $session->set('hand', $hand);
-        
+
         return $this->render('card/draw_number.html.twig', [
             'cards' => $hand->getString(),
             'count' => $deck->getNumberCards()
