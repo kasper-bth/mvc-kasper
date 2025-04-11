@@ -8,4 +8,4 @@
     <li>Verisioner för varje del av kursmomentets gång.</li>
 </ul>
 
-<p>Hemsidan för detta projekt ligger på denna hemsida <a href="https://www.student.bth.se/~kahg24/dbwebb-kurser/mvc/me/report/public/"></a>
+<p>Hemsidan för detta projekt ligger på denna hemsida <a href="https://www.student.bth.se/~kahg24/dbwebb-kurser/mvc/me/report/public/">https://www.student.bth.se/~kahg24/dbwebb-kurser/mvc/me/report/public</a>
