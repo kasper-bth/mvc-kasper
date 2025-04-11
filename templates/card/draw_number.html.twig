@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Card{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Draw Multiple Cards</h1>
+        {% for card in cards %}
+            <p>{{ card }}</p>
+        {% else %}
+            <div class="alert alert-warning">No cards left in the deck!</div>
+        {% endfor %}
+
+        <p>Cards remaining: {{ count }}</p>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; Copyright ägs av mig och bilder tillåts att användas.</p>
+    </footer>
+{% endblock %}

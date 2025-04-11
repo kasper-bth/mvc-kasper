@@ -20,28 +20,30 @@ class CardController extends AbstractController
     }
 
     #[Route("/card/deck", name: "card_deck")]
-    public function deck(
-        SessionInterface $session
-    ): Response
+    public function deck(SessionInterface $session): Response
     {
-        $deck = $session->get('deck') ?? new DeckOfCards();
-        $session->set('deck', $deck);
+        $deck = $session->get('deck');
+        
+        $sortedCards = $deck->getSortedCards();
+        
+        $sortedCardStrings = array_map(function($card) {
+            return $card->getAsString();
+        }, $sortedCards);
         
         return $this->render('card/deck.html.twig', [
-            'deck' => $deck->getString(),
+            'deck' => $sortedCardStrings,
             'count' => $deck->getNumberCards()
         ]);
     }
 
     #[Route("/card/deck/shuffle", name: "card_deck_shuffle")]
-    public function shuffle(
-        SessionInterface $session
-    ): Response
+    public function shuffle(SessionInterface $session): Response
     {
-        $deck = $session->get('deck') ?? new DeckOfCards();
+        $deck = new DeckOfCards();
         $deck->shuffle();
+
         $session->set('deck', $deck);
-        
+
         return $this->render('card/shuffle.html.twig', [
             'deck' => $deck->getString(),
             'count' => $deck->getNumberCards()
@@ -89,41 +91,24 @@ class CardController extends AbstractController
     }
 
     #[Route("/session", name: "card_session")]
-    public function session(
-        SessionInterface $session
-    ): Response
+    public function session(SessionInterface $session): Response
     {
-        $sessionData = $session->all();
-        
-        $displayData = [];
-        foreach ($sessionData as $key => $value) {
-            if (is_object($value)) {
-                if (method_exists($value, 'getString')) {
-                    $displayData[$key] = $value->getString();
-                } elseif (method_exists($value, 'getAsString')) {
-                    $displayData[$key] = $value->getAsString();
-                } else {
-                    $displayData[$key] = get_class($value);
-                }
-            } else {
-                $displayData[$key] = $value;
-            }
-        }
-        
+        $sessionData = [
+            'deck' => $session->get('deck') ? get_class($session->get('deck')) : 'Not set',
+            'hand' => $session->get('hand') ? get_class($session->get('hand')) : 'Not set',
+            'remaining_cards' => $session->get('deck') ? $session->get('deck')->getNumberCards() : 0
+        ];
+
         return $this->render('card/session.html.twig', [
-            'session' => $displayData
+            'session_data' => $session->all()
         ]);
     }
 
     #[Route("/session/delete", name: "card_session_delete")]
-    public function deleteSession(
-        SessionInterface $session
-    ): Response
+    public function deleteSession(SessionInterface $session): Response
     {
         $session->clear();
-        
         $this->addFlash('notice', 'Session has been cleared successfully!');
-        
         return $this->redirectToRoute('card_home');
     }
 }

@@ -10,9 +10,11 @@
         <p>Det här är en kortlek och det finns olika delar som man kan testa denna kortlek på.</p>
 
         <ul>
-            <li><a href="{{ path('card_deck') }}">Deck</a></li>
-            <li><a href="{{ path('card_deck_shuffle') }}">Shuffle</a></li>
-            <li><a href="{{ path('card_deck_draw') }}">Draw</a></li>
+            <li><a href="{{ path('card_deck') }}">Full deck</a></li>
+            <li><a href="{{ path('card_deck_shuffle') }}">Shuffle deck</a></li>
+            <li><a href="{{ path('card_deck_draw') }}">Draw one card</a></li>
+            <li><a href="{{ path('card_deck_draw_number', {number: 5}) }}">Draw five cards</a></li>
+            <li><a href="{{ path('card_session') }}">Session</a></li>
         </ul>
 
         <p>
