@@ -4,7 +4,7 @@
 
 För att klona detta repo kör  `$ git clone https://github.com/kasper-bth/mvc-kasper.git`
 
-För att köra det klonade repot lokalt kör `php -S localhost:8888 -t public` och stå i report.
+För att köra det klonade repot lokalt kör `php -S localhost:8888 -t public` och stå i roten.
 
 ## Innehåll i detta repo
 
