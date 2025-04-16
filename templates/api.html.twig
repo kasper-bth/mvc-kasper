@@ -7,12 +7,13 @@
         <h1>JSON API</h1>
         <p>De json routes som finns är:</p>
         <ul>
-            <li>api/lucky, Denna route visar ett nummer mellan 1-100.</li>
-            <li>api/query, Denna route visar en av tre citat.</li>
-            <li>api/deck, Denna route visar den sorterade kortleken.</li>
-            <li>api/deck/shuffle, Denna route blandar kortleken.</li>
-            <li>api/deck/draw, Denna route drar ett kort från kortleken.</li>
-            <li>api/deck/draw/:number, Denna route drar ett nummer av kort från kortleken.</li>
+            <li><a href="{{ path('api_lucky') }}">api/lucky</a>, Denna route visar ett nummer mellan 1-100.</li>
+            <li><a href="{{ path('api_quote') }}">api/quote</a>, Denna route visar en av tre citat.</li>
+            <li><a href="{{ path('api_deck') }}">api/deck</a>, Denna route visar den sorterade kortleken.</li>
+            <li><a href="{{ path('api_deck_shuffle') }}">api/deck/shuffle</a>, Denna route blandar kortleken.</li>
+            <li><a href="{{ path('api_deck_draw') }}">api/deck/draw</a>, Denna route drar ett kort från kortleken.</li>
+            <li><a href="{{ path('api_deck_draw_number', {number: 5}) }}">api/deck/draw/number</a>, Denna route drar 
+            ett nummer av kort från kortleken.</li>
         </ul>
     </div>
     <footer class="footer">

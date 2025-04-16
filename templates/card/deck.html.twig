@@ -8,9 +8,14 @@
         <p>Total cards: {{ count }}</p>
     
         <h3>Sorted by Suit and Value</h3>
-        {% for card in deck %}
-            <p>{{ card }}</p>
-        {% endfor %}
+        <div class ="card-container">
+            {% for card in deck %}
+                <div class="card {% if card matches '/♥|♦/' %}red{% else %}black{% endif %}">
+                    <p>{{ card }}</p>
+                </div>
+                {% if loop.index % 8 == 0 %}<br>{% endif %}
+            {% endfor %}
+        </div>
     </div>
 
     <footer class="footer">

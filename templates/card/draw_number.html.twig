@@ -5,11 +5,15 @@
 {% block body %}
     <div class="container">
         <h1>Draw Multiple Cards</h1>
+        <div class ="card-container">
         {% for card in cards %}
-            <p>{{ card }}</p>
+            <div class="card {% if card matches '/♥|♦/' %}red{% else %}black{% endif %}">
+                <p>{{ card }}</p>
+            </div>
         {% else %}
             <div class="alert alert-warning">No cards left in the deck!</div>
         {% endfor %}
+        </div>
 
         <p>Cards remaining: {{ count }}</p>
     </div>

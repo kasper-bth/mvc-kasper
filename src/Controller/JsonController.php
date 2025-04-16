@@ -11,7 +11,7 @@ use App\Card\DeckOfCards;
 
 class JsonController
 {
-    #[Route("/api/lucky")]
+    #[Route("/api/lucky", name: "api_lucky")]
     public function jsonNumber(): Response
     {
         $number = random_int(0, 100);
@@ -28,7 +28,7 @@ class JsonController
         return $response;
     }
 
-    #[Route("/api/quote")]
+    #[Route("/api/quote", name: "api_quote")]
     public function jsonQuote(): Response
     {
         date_default_timezone_set('Europe/Stockholm');
@@ -58,7 +58,7 @@ class JsonController
     #[Route("/api/deck", name: "api_deck", methods: ['GET'])]
     public function jsonDeck(SessionInterface $session): Response
     {
-        $deck = $session->get('api_deck') ?? new DeckOfCards();
+        $deck = $session->get('deck') ?? new DeckOfCards();
         $sortedCards = $deck->getSortedCards();
 
         $cardStrings = array_map(function ($card) {
@@ -83,7 +83,7 @@ class JsonController
         $deck = new DeckOfCards();
         $deck->shuffle();
 
-        $session->set('api_deck', $deck);
+        $session->set('deck', $deck);
 
         $cardStrings = array_map(function ($card) {
             return $card->getAsString();
@@ -116,7 +116,7 @@ class JsonController
 
     private function drawCards(SessionInterface $session, int $number): Response
     {
-        $deck = $session->get('api_deck');
+        $deck = $session->get('deck');
 
         $drawnCards = [];
         for ($i = 0; $i < $number; $i++) {
@@ -126,7 +126,7 @@ class JsonController
             }
         }
 
-        $session->set('api_deck', $deck);
+        $session->set('deck', $deck);
 
         $data = [
             'drawn_cards' => $drawnCards,

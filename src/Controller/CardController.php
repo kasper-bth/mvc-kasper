@@ -20,7 +20,7 @@ class CardController extends AbstractController
     #[Route("/card/deck", name: "card_deck")]
     public function deck(SessionInterface $session): Response
     {
-        $deck = $session->get('deck');
+        $deck = $session->get('deck') ?? new DeckOfCards();
 
         $sortedCards = $deck->getSortedCards();
 

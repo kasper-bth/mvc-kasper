@@ -1,11 +1,13 @@
-<h1>Detta är mitt github repo för kursen <a href="https://dbwebb.se/kurser/mvc-v2">mvc</a></h1>
+![En bild på mig](/public/img/jag.png "En bild på mig")
 
-<h2>Innehåll i detta repo<h2>
+# Detta är mitt github repo för kursen <a href="https://dbwebb.se/kurser/mvc-v2">mvc</a>
 
-<ul>
-    <li>Kod för varje kursmoment.</li>
-    <li>Kod för min report sida.</li>
-    <li>Verisioner för varje del av kursmomentets gång.</li>
-</ul>
+För att klona detta repo kör  `$ git clone https://github.com/kasper-bth/mvc-kasper.git`
 
-<p>Hemsidan för detta projekt ligger på denna hemsida <a href="https://www.student.bth.se/~kahg24/dbwebb-kurser/mvc/me/report/public/">https://www.student.bth.se/~kahg24/dbwebb-kurser/mvc/me/report/public</a>
+## Innehåll i detta repo
+
+- Kod för varje kursmoment.
+- Kod för min report sida.
+- Verisioner för varje del av kursmomentets gång.
+
+Hemsidan för detta projekt ligger på denna hemsida <a href="https://www.student.bth.se/~kahg24/dbwebb-kurser/mvc/me/report/public/">https://www.student.bth.se/~kahg24/dbwebb-kurser/mvc/me/report/public</a>
