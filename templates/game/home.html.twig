@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Game{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1>Game: 21</h1>
+
+        <p>Det här spelet är kortspelet 21. Spelets idé är att med två eller flera kort försöka uppnå det sammanlagda värdet 21,
+        eller komma så nära som möjligt utan att överskrida 21. Ess är värt 1 eller 14.</p>
+
+        <form method="post" action="">
+            <input type="submit" name="do_it" value="Start playing">
+        </form>
+
+        <a href="{{ path('game_doc') }}">Dokumentation:</a>
+
+        <h1>Regler</h1>
+        <p>Spelet börjar med spelaren och banken med inga kort.</p>
+        <p>Spelaren drar ett kort och bestämmer att stanna eller dra ett ytterligare kort.</p>
+        <p>Om spelaren får över 21 så vinner banken.</p>
+        <p>När spelaren har bestämmt sig att stanna så blir det bankens tur.</p>
+        <p>Banken vet inte vad spelaren har för kort och plockar kort tills den stannar eller har över 21.</p>
+        <p>Banken vinner vid lika eller om banken har mer än spelaren.</p>
+        <p>Spelaren vinner om banken får över 21 eller har mer än banken.</p>
+
+
+        <p>För att se mer om kort spelet 21 kan du läsa mer här: <a href="https://sv.wikipedia.org/wiki/Tjugoett_(kortspel)"
+        >https://sv.wikipedia.org/wiki/Tjugoett_(kortspel)</a></p>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; Copyright ägs av mig och bilder tillåts att användas.</p>
+    </footer>
+
+{% endblock %}

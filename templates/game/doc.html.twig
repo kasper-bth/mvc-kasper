@@ -1,0 +1,134 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Doc{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1>Doc</h1>
+
+        <img width=650px height=650px src="{{ asset('img/flowchart.png') }}" alt=""></img>
+        <pre>
+            <code>
+                SET game_over TO false
+                SET player_score TO 0
+                SET bank_score TO 0
+
+                CREATE empty player_hand
+                CREATE empty bank_hand
+
+                WHILE game_over equals false
+                    DISPLAY "Your hand: " + player_hand
+                    
+                    SET action TO user input "Draw or Stop?"
+                    
+                    IF action equals "Draw" THEN
+                        CALL drawCard with player_hand
+                        SET player_score TO CALL calculatePlayerScore with player_hand
+                        
+                        IF player_score > 21 THEN
+                            SET game_over TO true
+                            DISPLAY "You busted!"
+                        END IF
+                        
+                    ELSE IF action equals "Stop" THEN
+                        SET game_over TO true
+                    END IF
+                END WHILE
+
+                IF player_score <= 21 THEN
+                    SET game_over TO false
+                    
+                    WHILE game_over equals false
+                        SET bank_score TO CALL calculateBankScore with bank_hand
+                        
+                        IF bank_score < 17 THEN
+                            CALL drawCard with bank_hand
+                        ELSE
+                            SET game_over TO true
+                        END IF
+                        
+                        IF bank_score > 21 THEN
+                            SET game_over TO true
+                            DISPLAY "Bank busted!"
+                        END IF
+                    END WHILE
+                END IF
+
+                SET player_score TO CALL calculatePlayerScore with player_hand
+                SET bank_score TO CALL calculateBankScore with bank_hand
+
+                DISPLAY "Your score: " + player_score
+                DISPLAY "Bank score: " + bank_score
+
+                IF player_score > 21 THEN
+                    DISPLAY "Bank wins!"
+                ELSE IF bank_score > 21 THEN
+                    DISPLAY "You win!"
+                ELSE IF bank_score >= player_score THEN
+                    DISPLAY "Bank wins!"
+                ELSE
+                    DISPLAY "You win!"
+                END IF
+
+                FUNCTION calculatePlayerScore(hand)
+                    SET score TO 0
+                    
+                    FOR EACH card IN hand
+                        IF card.value equals "J" THEN
+                            ADD 11 TO score
+                        ELSE IF card.value equals "Q" THEN
+                            ADD 12 TO score
+                        ELSE IF card.value equals "K" THEN
+                            ADD 13 TO score
+                        ELSE IF card.value equals "A" THEN
+                            SET choice TO user input "Count Ace as 1 or 14?"
+                            IF choice equals "14" THEN
+                                ADD 14 TO score
+                            ELSE
+                                ADD 1 TO score
+                            END IF
+                        ELSE
+                            ADD card.number TO score
+                        END IF
+                    END FOR
+                    
+                    RETURN score
+                END FUNCTION
+
+                FUNCTION calculateBankScore(hand)
+                    SET score TO 0
+                    
+                    FOR EACH card IN hand
+                        IF card.value equals "J" THEN
+                            ADD 11 TO score
+                        ELSE IF card.value equals "Q" THEN
+                            ADD 12 TO score
+                        ELSE IF card.value equals "K" THEN
+                            ADD 13 TO score
+                        ELSE IF card.value equals "A" THEN
+                            IF score <= 7 THEN
+                                ADD 14 TO score
+                            ELSE
+                                ADD 1 TO score
+                            ENDIF
+                        ELSE
+                            ADD card.number TO score
+                        END IF
+                    END FOR
+                    
+                    RETURN score
+                END FUNCTION
+            </code>
+        </pre>
+        <p>
+            En klass CardGame.php behöver skapas. Den klassen används för att hålla koll på hur spelet kommer fungera.
+            Vid behov av för mycket kod i kontrollern så kan ytterligare klasser behövas.
+        </p>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; Copyright ägs av mig och bilder tillåts att användas.</p>
+    </footer>
+
+{% endblock %}
