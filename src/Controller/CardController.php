@@ -91,13 +91,13 @@ class CardController extends AbstractController
     {
         $deck = $session->get('deck') ?? new DeckOfCards();
         $hand = $session->get('hand');
-    
+
         $sessionData = [
             'deck' => $deck ? $deck->getString() : null,
             'hand' => $hand ? $hand->getString() : null,
             'remaining_cards' => $deck ? $deck->getNumberCards() : 0
         ];
-    
+
         return $this->render('card/session.html.twig', [
             'session_data' => $sessionData
         ]);
