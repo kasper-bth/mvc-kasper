@@ -89,14 +89,17 @@ class CardController extends AbstractController
     #[Route("/session", name: "card_session")]
     public function session(SessionInterface $session): Response
     {
+        $deck = $session->get('deck') ?? new DeckOfCards();
+        $hand = $session->get('hand');
+    
         $sessionData = [
-            'deck' => $session->get('deck') ? get_class($session->get('deck')) : 'Not set',
-            'hand' => $session->get('hand') ? get_class($session->get('hand')) : 'Not set',
-            'remaining_cards' => $session->get('deck') ? $session->get('deck')->getNumberCards() : 0
+            'deck' => $deck ? $deck->getString() : null,
+            'hand' => $hand ? $hand->getString() : null,
+            'remaining_cards' => $deck ? $deck->getNumberCards() : 0
         ];
-
+    
         return $this->render('card/session.html.twig', [
-            'session_data' => $session->all()
+            'session_data' => $sessionData
         ]);
     }
 

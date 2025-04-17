@@ -5,8 +5,11 @@
 {% block body %}
     <div class="container">
         <h1>Session Contents</h1>
+        <h3>Session Data</h3>
+        <pre>{{ session_data|json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_UNESCAPED_UNICODE')) }}</pre>
         <a href="{{ path('card_session_delete') }}">Clear Session</a>
-        <pre>{{ session_data|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+
+        {{ include('flash.html.twig') }}
     </div>
 
     <footer class="footer">
