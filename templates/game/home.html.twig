@@ -10,7 +10,7 @@
         <p>Det här spelet är kortspelet 21. Spelets idé är att med två eller flera kort försöka uppnå det sammanlagda värdet 21,
         eller komma så nära som möjligt utan att överskrida 21. Ess är värt 1 eller 14.</p>
 
-        <form method="post" action="">
+        <form method="get" action="{{ path('game_play') }}">
             <input type="submit" name="do_it" value="Start playing">
         </form>
 

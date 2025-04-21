@@ -1,0 +1,45 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Game{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Game: 21</h1>
+
+    {{ include('flash.html.twig') }}
+
+    <h2>Your Hand (Score: {{ player_score }})</h2>
+    {% for card in player_hand.getCards() %}
+        <div class="card {{ card.getColor() }}">
+            <p>{{ card.getAsString() }}</p>
+        </div>
+    {% endfor %}
+
+    <h2>Bank's Hand (Score: {{ bank_score }})</h2>
+    {% for card in bank_hand.getCards() %}
+        <div class="card {{ card.getColor() }}">
+            <p>{{ card.getAsString() }}</p>
+        </div>
+    {% endfor %}
+
+    {% if game_over %}
+        <h2>
+            {% if winner == 'player' %}
+                You win!
+            {% else %}
+                Bank wins!
+            {% endif %}
+        </h2>
+        <form method="post" action="{{ path('game_reset') }}">
+            <button type="submit">Play Again</button>
+        </form>
+    {% else %}
+        <form method="post" action="{{ path('game_draw') }}">
+            <button type="submit">Draw Card</button>
+        </form>
+        <form method="post" action="{{ path('game_stop') }}">
+            <button type="submit">Stop</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

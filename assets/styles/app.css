@@ -232,3 +232,7 @@ h1 {
 .black {
     color: black;
 }
+
+form {
+    margin-bottom: 10px;
+}
