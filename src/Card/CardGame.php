@@ -26,8 +26,8 @@ class CardGame
             $card = $deck->drawCard();
             if ($card) {
                 $this->playerHand->addCard($card);
-                $this->playerScore = $this->calculatePlayerScore($this->playerHand);
-                
+                $this->playerScore = $this->calculateScore($this->playerHand);
+
                 if ($this->playerScore > 21) {
                     $this->gameOver = true;
                 }
@@ -43,14 +43,14 @@ class CardGame
 
     private function bankPlay(DeckOfCards $deck): void
     {
-        $this->bankScore = $this->calculateBankScore($this->bankHand);
-        
+        $this->bankScore = $this->calculateScore($this->bankHand);
+
         while ($this->bankScore < 17 && $this->playerScore <= 21) {
             $card = $deck->drawCard();
             if ($card) {
                 $this->bankHand->addCard($card);
-                $this->bankScore = $this->calculateBankScore($this->bankHand);
-                
+                $this->bankScore = $this->calculateScore($this->bankHand);
+
                 if ($this->bankScore > 21) {
                     break;
                 }
@@ -58,7 +58,7 @@ class CardGame
         }
     }
 
-    private function calculatePlayerScore(CardHand $hand): int
+    private function calculateScore(CardHand $hand): int
     {
         $score = 0;
         $aces = 0;
@@ -68,46 +68,22 @@ class CardGame
 
             if (in_array($value, ['jack'])) {
                 $score += 11;
-            } elseif (in_array($value, ['queen'])) {
+                continue;
+            }
+            if (in_array($value, ['queen'])) {
                 $score += 12;
-            } elseif (in_array($value, ['king'])) {
+                continue;
+            }
+            if (in_array($value, ['king'])) {
                 $score += 13;
-            } elseif ($value === 'ace') {
+                continue;
+            }
+            if ($value === 'ace') {
                 $score += 1;
                 $aces++;
-            } else {
-                $score += (int)$value;
+                continue;
             }
-        }
-
-        while ($aces > 0 && $score <= 11) {
-            $score += 13;
-            $aces--;
-        }
-
-        return $score;
-    }
-
-    private function calculateBankScore(CardHand $hand): int
-    {
-        $score = 0;
-        $aces = 0;
-
-        foreach ($hand->getCards() as $card) {
-            $value = $card->getValue();
-            
-            if (in_array($value, ['jack'])) {
-                $score += 11;
-            } elseif (in_array($value, ['queen'])) {
-                $score += 12;
-            } elseif (in_array($value, ['king'])) {
-                $score += 13;
-            } elseif ($value === 'ace') {
-                $score += 1;
-                $aces++;
-            } else {
-                $score += (int)$value;
-            }
+            $score += (int)$value;
         }
 
         while ($aces > 0 && $score <= 7) {

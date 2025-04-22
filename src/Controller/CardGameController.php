@@ -28,7 +28,7 @@ class CardGameController extends AbstractController
     {
         $deck = $session->get('deck') ?? new DeckOfCards();
         $game = $session->get('game') ?? new CardGame($deck);
-        
+
         $session->set('deck', $deck);
         $session->set('game', $game);
 
@@ -48,7 +48,7 @@ class CardGameController extends AbstractController
     {
         $deck = $session->get('deck');
         $game = $session->get('game');
-        
+
         if ($deck && $game) {
             $game->playerDraw($deck);
             $session->set('deck', $deck);
@@ -63,7 +63,7 @@ class CardGameController extends AbstractController
     {
         $deck = $session->get('deck');
         $game = $session->get('game');
-        
+
         if ($deck && $game) {
             $game->playerStop($deck);
             $session->set('deck', $deck);

@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Exception;
 
 class DiceGameController extends AbstractController
 {
@@ -22,7 +23,6 @@ class DiceGameController extends AbstractController
     #[Route("/game/pig/test/roll", name: "test_roll_dice")]
     public function testRollDice(): Response
     {
-        //$die = new Dice();
         $die = new DiceGraphic();
 
         $data = [
@@ -37,12 +37,11 @@ class DiceGameController extends AbstractController
     public function testRollDices(int $num): Response
     {
         if ($num > 99) {
-            throw new \Exception("Can not roll more than 99 dices!");
+            throw new Exception("Can not roll more than 99 dices!");
         }
 
         $diceRoll = [];
         for ($i = 1; $i <= $num; $i++) {
-            //$die = new Dice();
             $die = new DiceGraphic();
             $die->roll();
             $diceRoll[] = $die->getAsString();
@@ -60,16 +59,14 @@ class DiceGameController extends AbstractController
     public function testDiceHand(int $num): Response
     {
         if ($num > 99) {
-            throw new \Exception("Can not roll more than 99 dices!");
+            throw new Exception("Can not roll more than 99 dices!");
         }
 
         $hand = new DiceHand();
         for ($i = 1; $i <= $num; $i++) {
-            if ($i % 2 === 1) {
-                $hand->add(new DiceGraphic());
-            } else {
-                $hand->add(new Dice());
-            }
+            $hand->add(
+                $i % 2 === 1 ? new DiceGraphic() : new Dice()
+            );
         }
 
         $hand->roll();

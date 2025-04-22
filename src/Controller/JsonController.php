@@ -147,21 +147,21 @@ class JsonController
         $game = $session->get('game');
         
         if (!$game) {
-            $data = [
+            return new JsonResponse([
                 'error' => 'No game in progress',
                 'message' => 'Start a new game first'
-            ];
-        } else {
-            $data = [
-                'player_score' => $game->getPlayerScore(),
-                'bank_score' => $game->getBankScore()
-            ];
+            ], 404);
         }
-
-        $response = new JsonResponse($data);
+        
+        $response = new JsonResponse([
+            'player_score' => $game->getPlayerScore(),
+            'bank_score' => $game->getBankScore()
+        ]);
+        
         $response->setEncodingOptions(
             $response->getEncodingOptions() | JSON_PRETTY_PRINT
         );
+        
         return $response;
     }
 }
