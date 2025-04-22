@@ -140,4 +140,28 @@ class JsonController
         );
         return $response;
     }
+
+    #[Route("/api/game", name: "api_game", methods: ['GET'])]
+    public function jsonGameScore(SessionInterface $session): Response
+    {
+        $game = $session->get('game');
+        
+        if (!$game) {
+            $data = [
+                'error' => 'No game in progress',
+                'message' => 'Start a new game first'
+            ];
+        } else {
+            $data = [
+                'player_score' => $game->getPlayerScore(),
+                'bank_score' => $game->getBankScore()
+            ];
+        }
+
+        $response = new JsonResponse($data);
+        $response->setEncodingOptions(
+            $response->getEncodingOptions() | JSON_PRETTY_PRINT
+        );
+        return $response;
+    }
 }
