@@ -38,62 +38,62 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Card\\CardGame",
             "name": "CardGame",
-            "summary": "",
+            "summary": "Represents\u0020a\u0020card\u0020game\u0020between\u0020a\u0020player\u0020and\u0020the\u0020bank.",
             "url": "classes/App-Card-CardGame.html"
         },                {
             "fqsen": "\\App\\Card\\CardGame\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "",
+            "summary": "Initializes\u0020a\u0020new\u0020CardGame\u0020instance.",
             "url": "classes/App-Card-CardGame.html#method___construct"
         },                {
             "fqsen": "\\App\\Card\\CardGame\u003A\u003AplayerDraw\u0028\u0029",
             "name": "playerDraw",
-            "summary": "",
+            "summary": "Draws\u0020a\u0020card\u0020from\u0020the\u0020deck\u0020for\u0020the\u0020player.",
             "url": "classes/App-Card-CardGame.html#method_playerDraw"
         },                {
             "fqsen": "\\App\\Card\\CardGame\u003A\u003AplayerStop\u0028\u0029",
             "name": "playerStop",
-            "summary": "",
+            "summary": "Stops\u0020the\u0020player\u0027s\u0020turn.",
             "url": "classes/App-Card-CardGame.html#method_playerStop"
         },                {
             "fqsen": "\\App\\Card\\CardGame\u003A\u003AbankPlay\u0028\u0029",
             "name": "bankPlay",
-            "summary": "",
+            "summary": "Handles\u0020the\u0020bank\u0027s\u0020turn\u0020to\u0020draw\u0020cards.",
             "url": "classes/App-Card-CardGame.html#method_bankPlay"
         },                {
             "fqsen": "\\App\\Card\\CardGame\u003A\u003AcalculateScore\u0028\u0029",
             "name": "calculateScore",
-            "summary": "",
+            "summary": "Calculates\u0020the\u0020score\u0020for\u0020a\u0020given\u0020hand\u0020of\u0020cards.",
             "url": "classes/App-Card-CardGame.html#method_calculateScore"
         },                {
-            "fqsen": "\\App\\Card\\CardGame\u003A\u003AgetGameOver\u0028\u0029",
-            "name": "getGameOver",
-            "summary": "",
-            "url": "classes/App-Card-CardGame.html#method_getGameOver"
+            "fqsen": "\\App\\Card\\CardGame\u003A\u003AisGameOver\u0028\u0029",
+            "name": "isGameOver",
+            "summary": "Checks\u0020if\u0020the\u0020game\u0020has\u0020ended.",
+            "url": "classes/App-Card-CardGame.html#method_isGameOver"
         },                {
             "fqsen": "\\App\\Card\\CardGame\u003A\u003AgetPlayerHand\u0028\u0029",
             "name": "getPlayerHand",
-            "summary": "",
+            "summary": "Gets\u0020the\u0020player\u0027s\u0020current\u0020hand.",
             "url": "classes/App-Card-CardGame.html#method_getPlayerHand"
         },                {
             "fqsen": "\\App\\Card\\CardGame\u003A\u003AgetBankHand\u0028\u0029",
             "name": "getBankHand",
-            "summary": "",
+            "summary": "Gets\u0020the\u0020bank\u0027s\u0020current\u0020hand.",
             "url": "classes/App-Card-CardGame.html#method_getBankHand"
         },                {
             "fqsen": "\\App\\Card\\CardGame\u003A\u003AgetPlayerScore\u0028\u0029",
             "name": "getPlayerScore",
-            "summary": "",
+            "summary": "Gets\u0020the\u0020player\u0027s\u0020current\u0020score.",
             "url": "classes/App-Card-CardGame.html#method_getPlayerScore"
         },                {
             "fqsen": "\\App\\Card\\CardGame\u003A\u003AgetBankScore\u0028\u0029",
             "name": "getBankScore",
-            "summary": "",
+            "summary": "Gets\u0020the\u0020bank\u0027s\u0020current\u0020score.",
             "url": "classes/App-Card-CardGame.html#method_getBankScore"
         },                {
             "fqsen": "\\App\\Card\\CardGame\u003A\u003AgetWinner\u0028\u0029",
             "name": "getWinner",
-            "summary": "",
+            "summary": "Determines\u0020the\u0020winner\u0020of\u0020the\u0020game.",
             "url": "classes/App-Card-CardGame.html#method_getWinner"
         },                {
             "fqsen": "\\App\\Card\\CardGame\u003A\u003A\u0024playerHand",
@@ -445,11 +445,6 @@ Search.appendIndex(
             "name": "roll",
             "summary": "",
             "url": "classes/App-Dice-Dice.html#method_roll"
-        },                {
-            "fqsen": "\\App\\Dice\\Dice\u003A\u003AgetValue\u0028\u0029",
-            "name": "getValue",
-            "summary": "",
-            "url": "classes/App-Dice-Dice.html#method_getValue"
         },                {
             "fqsen": "\\App\\Dice\\Dice\u003A\u003AgetAsString\u0028\u0029",
             "name": "getAsString",
