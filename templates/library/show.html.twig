@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>{{ book.title }}</h1>
+
+        <div style="width: 18rem;">
+            <img src="{{ book.img }}" width=150px height=150px alt="{{ book.title }}">
+            <div>
+                <ul>
+                    <li>Author: {{ book.author }}</li>
+                    <li>ISBN: {{ book.ISBN }}</li>
+                </ul>
+                <a href="{{ path('library_update', {'id': book.id}) }}">Update</a>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>&copy; Copyright ägs av mig och bilder tillåts att användas.</p>
+    </footer>
+{% endblock %}

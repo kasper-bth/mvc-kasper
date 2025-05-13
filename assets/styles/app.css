@@ -99,7 +99,7 @@ ul {
     color: black;
 }
 
-.container h1, h2, h3, p, a, li {
+.container h1, h2, h3, p, a, li, th, td, label {
     font-family: 'Roboto', sans-serif;
 }
 

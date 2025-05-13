@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Library{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Library</h1>
+        <p>Här är biblioteket, här kan man se, skapa, uppdatera och radera böcker från databasen.</p>
+
+        <a href="{{ path('library_create') }}">Create New Book</a>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Image</th>
+                    <th>View</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for book in books %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.ISBN }}</td>
+                    <td><img src="{{ book.img }}" width=150px height=150px alt="{{ book.title }}"></td>
+                    <td><a href="{{ path('library_show', {'id': book.id}) }}">View</a></td>
+                    <td><a href="{{ path('library_update', {'id': book.id}) }}">Update</a></td>
+                    <td>
+                        <form method="post" action="{{ path('library_delete', {'id': book.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ book.id) }}">
+                            <button>Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <footer class="footer">
+        <p>&copy; Copyright ägs av mig och bilder tillåts att användas.</p>
+    </footer>
+{% endblock %}
