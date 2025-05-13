@@ -7,7 +7,9 @@
         <h1>Library</h1>
         <p>Här är biblioteket, här kan man se, skapa, uppdatera och radera böcker från databasen.</p>
 
-        <a href="{{ path('library_create') }}">Create New Book</a>
+        <form method="get" action="{{ path('library_create') }}">
+            <button>Create A New Book</button>
+        </form>
 
         <table class="table">
             <thead>
