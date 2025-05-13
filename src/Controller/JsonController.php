@@ -171,7 +171,7 @@ class JsonController extends AbstractController
     public function jsonLibraryBooks(LibraryRepository $libraryRepository): Response
     {
         $books = $libraryRepository->findAll();
-        
+
         $booksArray = array_map(function ($book) {
             return [
                 'id' => $book->getId(),

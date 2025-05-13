@@ -9,6 +9,8 @@ use Doctrine\Migrations\AbstractMigration;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
+ * @SuppressWarnings(PHPMD.ShortMethodName)
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 final class Version20250511131608 extends AbstractMigration
 {

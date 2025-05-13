@@ -17,7 +17,7 @@ class Library
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $ISBN = null;
+    private ?string $isbn = null;
 
     #[ORM\Column(length: 255)]
     private ?string $author = null;
@@ -42,14 +42,14 @@ class Library
         return $this;
     }
 
-    public function getISBN(): ?string
+    public function getIsbn(): ?string
     {
-        return $this->ISBN;
+        return $this->isbn;
     }
 
-    public function setISBN(string $ISBN): static
+    public function setIsbn(string $isbn): static
     {
-        $this->ISBN = $ISBN;
+        $this->isbn = $isbn;
 
         return $this;
     }
