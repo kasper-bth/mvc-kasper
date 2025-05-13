@@ -16,6 +16,9 @@
             ett nummer av kort från kortleken.</li>
             <li><a href="{{ path('api_game', {number: 5}) }}">api/game</a>, Denna route visar den aktuella 
             ställningen för kortspelet 21.</li>
+            <li><a href="{{ path('api_library_books') }}">api/library/books</a>, Denna route visar alla böcker i databasen.</li>
+            <li><a href="{{ path('api_library_book', {isbn: 9780393972832}) }}">api/library/book/{isbn}</a>, Denna route visar
+            en specifik bok i databasen.</li>
         </ul>
     </div>
     <footer class="footer">
