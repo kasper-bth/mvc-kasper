@@ -1,3 +1,5 @@
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kasper-bth/mvc-kasper/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/kasper-bth/mvc-kasper/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/kasper-bth/mvc-kasper/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/kasper-bth/mvc-kasper/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/kasper-bth/mvc-kasper/badges/build.png?b=master)](https://scrutinizer-ci.com/g/kasper-bth/mvc-kasper/build-status/master)
+
 ![En bild på mig](/public/img/jag.png "En bild på mig")
 
 # Detta är mitt github repo för kursen <a href="https://dbwebb.se/kurser/mvc-v2">mvc</a>
