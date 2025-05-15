@@ -195,9 +195,9 @@ class JsonController extends AbstractController
     }
 
     #[Route("/api/library/book/{isbn}", name: "api_library_book", methods: ['GET'])]
-    public function jsonLibraryBookByIsbn(LibraryRepository $libraryRepository, int $isbn): Response
+    public function jsonLibraryBookByIsbn(LibraryRepository $libraryRepository, string $isbn): Response
     {
-        $book = $libraryRepository->findOneBy(['ISBN' => $isbn]);
+        $book = $libraryRepository->findOneBy(['isbn' => $isbn]);
 
         if (!$book) {
             return new JsonResponse([
