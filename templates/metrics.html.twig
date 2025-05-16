@@ -5,13 +5,57 @@
 {% block body %}
     <div class="container">
         <h1>Introduktion</h1>
-        <p></p>
+        <p>
+            För att göra min kod bättre kan jag följa de sex C:na som är Codestyle, Coverage, Complexity, Cohesion, Coupling och CRAP. Codestyle
+            är hur läsbar koden är och hur konsekvent den är. För min kod har jag ett kommand i composer där jag kan köra "composer csfix" som
+            gör koden mer konsekvent. Coverage är hur mycket av koden som testas av enhetstester. I mitt fall har kodens tester täckt 21% av koden.
+            Complexity är hur komplicerad koden är, det kan mätas genom cyklomatisk komplexitet som för min kod är 4.40. Cohesion är hur vä en klass
+            fokuserar på en uppgift. Coupling är hur beroende olika delar av koden är av varandra. Vissa av mina klasser använder DeckOfCards, då fyra
+            av mina klasser är påverkade av DeckOfCards. CRAP är ett mått på hur riskfylld en kodbit är att ändra, baserat på komplexitet och testtäckning.
+            Då ett lägre CRAP värder är bättre och min högsta CRAP värde är 20.
+        </p>
         <h1>Phpmetrics</h1>
-        <p></p>
+        <p>
+            Utifrån min Phpmetrics analys är det flera fel med min kod. Många klasser är stora röda cirklar som menas att de är svåra att upprätthålla.
+            Då jag vill att de flesta av mina klasser ska ha minst 65 i maintability index. Jag har även väldigt hög volym som gör det svårt att upprätthålla
+            min kod, då vissa klasser har en extra hög volym. Till exempel så har min CardController en cyklomatisk komplexitet på 11 och en maintability index
+            64.11.
+        </p>
+        <p>
+            Sedan har jag åtta violations då två av de är errors. Tre av de involverar klasser och resten är package violations. Målet är att ha noll
+            violations och det är något som behöver lösas. För två av klasserna som har errors är det en brist på cohesions.
+        </p>
+        <p>
+            Därefter har några av mina klasser ett högt antal av efferent coupling som menas antalet klasser som en given klass får effekter från. Ett få par
+            klasser har även högt antal afferent coupling som menas antalet klasser som påverkas av en given klass.
+        </p>
+        <img width=300px height=250px src="{{ asset('img/metrics.png') }}" alt="Metrics analysis">
         <h1>Scrutinizer</h1>
-        <p></p>
+        <p>
+            Utifrån min scrutinizer analys är det inte lika många fel. En som är tydlig är att det finns fyra fel med koden. Då tre av de är stora och en av de
+            är okänd. Så det de här felen behöver lösas.
+        </p>
+        <p>
+            Sedan så är inte alla delar av koden rankad A som ger det ett betyg på 9.96 istället för 10.0. De två delar som inte når betyget A är på grund av volymen
+            av kod och en som har en hög komplexitet.
+        </p>
+        <p>
+            Därefter är ett av de stora felen att det bara är 21% coverage. Det gör att en stor del av koden inte blir testad. Det kan gör att koden blir svårare
+            att upprätthålla också.
+        </p>
+        <img src="https://scrutinizer-ci.com/g/kasper-bth/mvc-kasper/badges/quality-score.png?b=master">
+        <img src="https://scrutinizer-ci.com/g/kasper-bth/mvc-kasper/badges/coverage.png?b=master">
+        <img src="https://scrutinizer-ci.com/g/kasper-bth/mvc-kasper/badges/build.png?b=master">
         <h1>Förbättringar</h1>
-        <p></p>
+        <p>
+            Utfirån detta finns det flera förbättringar som kan göras och som jag tänker fokusera på. Först vill jag bli av med alla fel från scrutinizer som är 4 fel och alla
+            violations från phpmetrics som är 8 då de båda ska nå 0. Det gör så att koden inte har några fel alls och gör koden som den här felen täcker blir bättre. Sedan vill jag blev av med
+            så många stora röda cirklar som möjligt som menas att göra koden mindre komplex. De klasser som jag ska fokusera på är CardGame som har 18 cyklomatisk komplexitet och 73,68 
+            maintability index, CardController som har 11 cyklomatisk komplexitet och 64,11 maintability index, DeckOfCards som har cyklomatisk komplexitet 9 och 41,9 maintability index 
+            och CardGameController som har 8 cyklomatisk komplexitet och 67,54 maintability index. Att minska komplexiteten gör det lättare att upprätthålla koden och gör den lättare att 
+            förstå och läsa. Det kommer även bli sammanhängd med att göra så att min sctrutinizer når ett betyg på 10.0 då mitt betyg nu är 9.96. Till sist vill jag nå en högre coverage då min
+            coverage just nu är 21% jag vill minst nå ett gult nummer för coverage i scrutinizer som är minst 50%. Det gör så att det blir mindre risk för min kod och förbättrar min kod totalt. 
+        </p>
         <h1>Diskussion</h1>
         <p></p>
     </div>
