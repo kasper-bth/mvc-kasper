@@ -13,6 +13,11 @@ class Card
         $this->value = $value;
     }
 
+    public function matches(string $suit, string $value): bool
+    {
+        return $this->suit === $suit && $this->value === $value;
+    }
+
     public function getSuit(): string
     {
         return $this->suit;

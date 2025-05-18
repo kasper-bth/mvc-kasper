@@ -11,20 +11,9 @@ namespace App\Card;
  */
 class CardGame
 {
-    /** @var CardHand The player's hand of cards */
-    private CardHand $playerHand;
-
-    /** @var CardHand The bank's hand of cards */
-    private CardHand $bankHand;
-
-    /** @var bool Flag indicating if the game has ended */
-    private bool $gameOver;
-
-    /** @var int The player's current score */
-    private int $playerScore;
-
-    /** @var int The bank's current score */
-    private int $bankScore;
+    private GameState $gameState;
+    private ScoreCalculator $scoreCalculator;
+    private BankStrategy $bankStrategy;
 
     /**
      * Initializes a new CardGame instance.
@@ -33,11 +22,9 @@ class CardGame
      */
     public function __construct(DeckOfCards $deck)
     {
-        $this->playerHand = new CardHand();
-        $this->bankHand = new CardHand();
-        $this->gameOver = false;
-        $this->playerScore = 0;
-        $this->bankScore = 0;
+        $this->gameState = new GameState();
+        $this->scoreCalculator = new ScoreCalculator();
+        $this->bankStrategy = new BankStrategy();
         $deck->shuffle();
     }
 
@@ -49,15 +36,17 @@ class CardGame
      */
     public function playerDraw(DeckOfCards $deck): void
     {
-        if (!$this->gameOver) {
-            $card = $deck->drawCard();
-            if ($card) {
-                $this->playerHand->addCard($card);
-                $this->playerScore = $this->calculateScore($this->playerHand);
+        if ($this->gameState->isGameOver()) {
+            return;
+        }
 
-                if ($this->playerScore > 21) {
-                    $this->gameOver = true;
-                }
+        $card = $deck->drawCard();
+        if ($card) {
+            $this->gameState->getPlayerHand()->addCard($card);
+            $this->updatePlayerScore();
+
+            if ($this->gameState->getPlayerScore() > 21) {
+                $this->gameState->endGame();
             }
         }
     }
@@ -71,7 +60,7 @@ class CardGame
      */
     public function playerStop(DeckOfCards $deck): void
     {
-        $this->gameOver = true;
+        $this->gameState->endGame();
         $this->bankPlay($deck);
     }
 
@@ -84,132 +73,52 @@ class CardGame
      */
     private function bankPlay(DeckOfCards $deck): void
     {
-        $this->bankScore = $this->calculateScore($this->bankHand);
+        $this->gameState->setBankScore(
+            $this->scoreCalculator->calculate($this->gameState->getBankHand())
+        );
 
-        while ($this->bankScore < 17 && $this->playerScore <= 21) {
+        while ($this->bankStrategy->shouldDraw(
+            $this->gameState->getBankScore(),
+            $this->gameState->getPlayerScore()
+        )) {
             $card = $deck->drawCard();
             if ($card) {
-                $this->bankHand->addCard($card);
-                $this->bankScore = $this->calculateScore($this->bankHand);
+                $this->gameState->getBankHand()->addCard($card);
+                $this->updateBankScore();
 
-                if ($this->bankScore > 21) {
+                if ($this->gameState->getBankScore() > 21) {
                     break;
                 }
             }
         }
     }
 
-    /**
-     * Calculates the score for a given hand of cards.
-     *
-     * @param CardHand $hand The hand to calculate score for
-     * @return int The calculated score
-     */
-    private function calculateScore(CardHand $hand): int
+    private function updatePlayerScore(): void
     {
-        $score = 0;
-        $aces = 0;
-
-        foreach ($hand->getCards() as $card) {
-            $value = $card->getValue();
-
-            if (in_array($value, ['jack'])) {
-                $score += 11;
-                continue;
-            }
-            if (in_array($value, ['queen'])) {
-                $score += 12;
-                continue;
-            }
-            if (in_array($value, ['king'])) {
-                $score += 13;
-                continue;
-            }
-            if ($value === 'ace') {
-                $score += 1;
-                $aces++;
-                continue;
-            }
-            $score += (int)$value;
-        }
-
-        while ($aces > 0 && $score <= 7) {
-            $score += 13;
-            $aces--;
-        }
-
-        return $score;
+        $this->gameState->setPlayerScore(
+            $this->scoreCalculator->calculate($this->gameState->getPlayerHand())
+        );
     }
 
-    /**
-     * Checks if the game has ended.
-     *
-     * @return bool True if the game is over, false otherwise
-     */
-    public function isGameOver(): bool
+    private function updateBankScore(): void
     {
-        return $this->gameOver;
+        $this->gameState->setBankScore(
+            $this->scoreCalculator->calculate($this->gameState->getBankHand())
+        );
     }
 
-    /**
-     * Gets the player's current hand.
-     *
-     * @return CardHand The player's hand
-     */
-    public function getPlayerHand(): CardHand
-    {
-        return $this->playerHand;
-    }
+    public function getGameOver(): bool { return $this->gameState->isGameOver(); }
+    public function getPlayerHand(): CardHand { return $this->gameState->getPlayerHand(); }
+    public function getBankHand(): CardHand { return $this->gameState->getBankHand(); }
+    public function getPlayerScore(): int { return $this->gameState->getPlayerScore(); }
+    public function getBankScore(): int { return $this->gameState->getBankScore(); }
 
-    /**
-     * Gets the bank's current hand.
-     *
-     * @return CardHand The bank's hand
-     */
-    public function getBankHand(): CardHand
-    {
-        return $this->bankHand;
-    }
-
-    /**
-     * Gets the player's current score.
-     *
-     * @return int The player's score
-     */
-    public function getPlayerScore(): int
-    {
-        return $this->playerScore;
-    }
-
-    /**
-     * Gets the bank's current score.
-     *
-     * @return int The bank's score
-     */
-    public function getBankScore(): int
-    {
-        return $this->bankScore;
-    }
-
-    /**
-     * Determines the winner of the game.
-     *
-     * @return string 'player' if the player wins, 'bank' if the bank wins
-     */
     public function getWinner(): string
     {
-        if ($this->playerScore > 21) {
-            return 'bank';
-        }
-
-        if ($this->bankScore > 21) {
-            return 'player';
-        }
-
-        if ($this->bankScore >= $this->playerScore) {
-            return 'bank';
-        }
-
-        return 'player';
+        if ($this->gameState->getPlayerScore() > 21) return 'bank';
+        if ($this->gameState->getBankScore() > 21) return 'player';
+        return $this->gameState->getBankScore() >= $this->gameState->getPlayerScore() 
+            ? 'bank' 
+            : 'player';
     }
 }

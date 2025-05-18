@@ -4,20 +4,21 @@ namespace App\Card;
 
 class DeckOfCards
 {
-    protected array $cards = [];
+    private const SUITS = ['hearts', 'diamonds', 'clubs', 'spades'];
+    private const VALUES = ['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king'];
+    private const SORT_ORDER = ['clubs', 'diamonds', 'hearts', 'spades'];
+
+    private array $cards = [];
 
     public function __construct()
     {
         $this->initializeDeck();
     }
 
-    protected function initializeDeck(): void
+    private function initializeDeck(): void
     {
-        $suits = ['hearts', 'diamonds', 'clubs', 'spades'];
-        $values = ['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king'];
-
-        foreach ($suits as $suit) {
-            foreach ($values as $value) {
+        foreach (self::SUITS as $suit) {
+            foreach (self::VALUES as $value) {
                 $this->cards[] = new CardGraphic($suit, $value);
             }
         }
@@ -35,28 +36,21 @@ class DeckOfCards
 
     public function getSortedCards(): array
     {
-        $suitsOrder = ['clubs', 'diamonds', 'hearts', 'spades'];
-        $valuesOrder = [
-            'ace', '2', '3', '4', '5', '6', '7',
-            '8', '9', '10', 'jack', 'queen', 'king'
-        ];
-
-        $sortedCards = [];
-
-        foreach ($suitsOrder as $suit) {
-            foreach ($valuesOrder as $value) {
-                foreach ($this->cards as $card) {
-                    if ($card->getSuit() === $suit && $card->getValue() === $value) {
-                        $sortedCards[] = $card;
-                        break;
-                    }
-                }
+        $cards = $this->cards;
+        usort($cards, function (Card $a, Card $b) {
+            $suitOrder = array_flip(self::SORT_ORDER);
+            $valueOrder = array_flip(self::VALUES);
+            
+            $suitCompare = $suitOrder[$a->getSuit()] <=> $suitOrder[$b->getSuit()];
+            if ($suitCompare !== 0) {
+                return $suitCompare;
             }
-        }
-
-        return $sortedCards;
+            return $valueOrder[$a->getValue()] <=> $valueOrder[$b->getValue()];
+        });
+        
+        return $cards;
     }
-
+    
     public function getNumberCards(): int
     {
         return count($this->cards);

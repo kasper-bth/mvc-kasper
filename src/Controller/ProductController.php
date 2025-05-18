@@ -39,31 +39,6 @@ final class ProductController extends AbstractController
         return new Response('Saved new product with id '.$product->getId());
     }
 
-    #[Route('/product/show', name: 'product_show_all')]
-    public function showAllProduct(
-        ProductRepository $productRepository
-    ): Response {
-        $products = $productRepository
-            ->findAll();
-
-        $response = $this->json($products);
-        $response->setEncodingOptions(
-            $response->getEncodingOptions() | JSON_PRETTY_PRINT
-        );
-        return $response;
-    }
-
-    #[Route('/product/show/{id}', name: 'product_by_id')]
-    public function showProductById(
-        ProductRepository $productRepository,
-        int $id
-    ): Response {
-        $product = $productRepository
-            ->find($id);
-
-        return $this->json($product);
-    }
-
     #[Route('/product/delete/{id}', name: 'product_delete_by_id')]
     public function deleteProductById(
         ManagerRegistry $doctrine,
@@ -103,42 +78,5 @@ final class ProductController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('product_show_all');
-    }
-
-    #[Route('/product/view', name: 'product_view_all')]
-    public function viewAllProduct(
-        ProductRepository $productRepository
-    ): Response {
-        $products = $productRepository->findAll();
-
-        $data = [
-            'products' => $products
-        ];
-
-        return $this->render('product/view.html.twig', $data);
-    }
-
-    #[Route('/product/view/{value}', name: 'product_view_minimum_value')]
-    public function viewProductWithMinimumValue(
-        ProductRepository $productRepository,
-        int $value
-    ): Response {
-        $products = $productRepository->findByMinimumValue($value);
-
-        $data = [
-            'products' => $products
-        ];
-
-        return $this->render('product/view.html.twig', $data);
-    }
-
-    #[Route('/product/show/min/{value}', name: 'product_by_min_value')]
-    public function showProductByMinimumValue(
-        ProductRepository $productRepository,
-        int $value
-    ): Response {
-        $products = $productRepository->findByMinimumValue2($value);
-
-        return $this->json($products);
     }
 }

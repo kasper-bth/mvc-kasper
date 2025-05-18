@@ -11,6 +11,22 @@ use App\Card\CardGame;
 
 class CardGameController extends AbstractController
 {
+    private function getGameFromSession(SessionInterface $session): CardGame
+    {
+        return $session->get('game') ?? new CardGame(new DeckOfCards());
+    }
+
+    private function getDeckFromSession(SessionInterface $session): DeckOfCards
+    {
+        return $session->get('deck') ?? new DeckOfCards();
+    }
+
+    private function saveGameState(SessionInterface $session, CardGame $game, DeckOfCards $deck): void
+    {
+        $session->set('game', $game);
+        $session->set('deck', $deck);
+    }
+
     #[Route("/game", name: "game_home")]
     public function home(): Response
     {
@@ -26,34 +42,21 @@ class CardGameController extends AbstractController
     #[Route("/game/play", name: "game_play", methods: ['GET'])]
     public function gamePlay(SessionInterface $session): Response
     {
-        $deck = $session->get('deck') ?? new DeckOfCards();
-        $game = $session->get('game') ?? new CardGame($deck);
+        $game = $this->getGameFromSession($session);
+        $deck = $this->getDeckFromSession($session);
+        $this->saveGameState($session, $game, $deck);
 
-        $session->set('deck', $deck);
-        $session->set('game', $game);
-
-        return $this->render('game/play.html.twig', [
-            'player_hand' => $game->getPlayerHand(),
-            'bank_hand' => $game->getBankHand(),
-            'player_score' => $game->getPlayerScore(),
-            'bank_score' => $game->getBankScore(),
-            'game_over' => $game->getGameOver(),
-            'winner' => $game->getGameOver() ? $game->getWinner() : null,
-            'remaining_cards' => $deck->getNumberCards()
-        ]);
+        return $this->render('game/play.html.twig', $this->getGameViewData($game, $deck));
     }
 
     #[Route("/game/draw", name: "game_draw", methods: ['POST'])]
     public function gameDraw(SessionInterface $session): Response
     {
-        $deck = $session->get('deck');
-        $game = $session->get('game');
-
-        if ($deck && $game) {
-            $game->playerDraw($deck);
-            $session->set('deck', $deck);
-            $session->set('game', $game);
-        }
+        $game = $this->getGameFromSession($session);
+        $deck = $this->getDeckFromSession($session);
+        
+        $game->playerDraw($deck);
+        $this->saveGameState($session, $game, $deck);
 
         return $this->redirectToRoute('game_play');
     }
@@ -61,14 +64,11 @@ class CardGameController extends AbstractController
     #[Route("/game/stop", name: "game_stop", methods: ['POST'])]
     public function gameStop(SessionInterface $session): Response
     {
-        $deck = $session->get('deck');
-        $game = $session->get('game');
-
-        if ($deck && $game) {
-            $game->playerStop($deck);
-            $session->set('deck', $deck);
-            $session->set('game', $game);
-        }
+        $game = $this->getGameFromSession($session);
+        $deck = $this->getDeckFromSession($session);
+        
+        $game->playerStop($deck);
+        $this->saveGameState($session, $game, $deck);
 
         return $this->redirectToRoute('game_play');
     }
@@ -79,5 +79,18 @@ class CardGameController extends AbstractController
         $session->remove('game');
         $this->addFlash('notice', 'Game has been reset!');
         return $this->redirectToRoute('game_play');
+    }
+
+    private function getGameViewData(CardGame $game, DeckOfCards $deck): array
+    {
+        return [
+            'player_hand' => $game->getPlayerHand(),
+            'bank_hand' => $game->getBankHand(),
+            'player_score' => $game->getPlayerScore(),
+            'bank_score' => $game->getBankScore(),
+            'game_over' => $game->getGameOver(),
+            'winner' => $game->getGameOver() ? $game->getWinner() : null,
+            'remaining_cards' => $deck->getNumberCards()
+        ];
     }
 }

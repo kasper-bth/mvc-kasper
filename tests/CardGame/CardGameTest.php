@@ -15,7 +15,7 @@ class CardGameTest extends TestCase
         $game = new CardGame($deck);
 
         $this->assertInstanceOf("\App\Card\CardGame", $game);
-        $this->assertFalse($game->isGameOver());
+        $this->assertFalse($game->getGameOver());
         $this->assertEquals(0, $game->getPlayerScore());
         $this->assertEquals(0, $game->getBankScore());
     }
@@ -34,7 +34,7 @@ class CardGameTest extends TestCase
         $game->playerDraw($deck);
         $this->assertCount(1, $game->getPlayerHand()->getCards());
         $this->assertGreaterThan(0, $game->getPlayerScore());
-        $this->assertFalse($game->isGameOver());
+        $this->assertFalse($game->getGameOver());
 
         $game->playerDraw($deck);
         $this->assertCount(2, $game->getPlayerHand()->getCards());
@@ -57,7 +57,7 @@ class CardGameTest extends TestCase
         $game->playerDraw($deck);
         $game->playerDraw($deck);
         
-        $this->assertTrue($game->isGameOver());
+        $this->assertTrue($game->getGameOver());
         $this->assertEquals(25, $game->getPlayerScore());
     }
 
@@ -78,7 +78,7 @@ class CardGameTest extends TestCase
         $game->playerDraw($deck);
         $game->playerStop($deck);
         
-        $this->assertTrue($game->isGameOver());
+        $this->assertTrue($game->getGameOver());
         $this->assertEquals(19, $game->getBankScore());
     }
 
@@ -241,5 +241,59 @@ class CardGameTest extends TestCase
         $game5->playerDraw($deck5);
         $game5->playerStop($deck5);
         $this->assertEquals('bank', $game5->getWinner());
+    }
+
+    public function testGameInitializesWithEmptyHands(): void
+    {
+        $deck = $this->createMock(DeckOfCards::class);
+        $game = new CardGame($deck);
+        
+        $this->assertCount(0, $game->getPlayerHand()->getCards());
+        $this->assertCount(0, $game->getBankHand()->getCards());
+    }
+
+    public function testBankStopsAt17(): void
+    {
+        $deck = $this->createMock(DeckOfCards::class);
+        $deck->method('drawCard')
+            ->willReturnOnConsecutiveCalls(
+                new Card('hearts', '10'), 
+                new Card('diamonds', '7'),
+                
+                new Card('clubs', '10'),
+                new Card('spades', '7')
+            );
+
+        $game = new CardGame($deck);
+        
+        $game->playerDraw($deck);
+        $game->playerDraw($deck);
+        
+        $game->playerStop($deck);
+        
+        $this->assertEquals(17, $game->getBankScore());
+        $this->assertTrue($game->getGameOver());
+    }
+
+    public function testBankStopsWhenPlayerBusted(): void
+    {
+        $deck = $this->createMock(DeckOfCards::class);
+        $deck->method('drawCard')
+            ->willReturnOnConsecutiveCalls(
+                new Card('hearts', '10'),
+                new Card('diamonds', '10'),
+                new Card('clubs', '5'),
+                
+                new Card('spades', '2')
+            );
+
+        $game = new CardGame($deck);
+        
+        $game->playerDraw($deck);
+        $game->playerDraw($deck);
+        $game->playerDraw($deck);
+        
+        $this->assertTrue($game->getGameOver());
+        $this->assertEquals(0, $game->getBankScore());
     }
 }

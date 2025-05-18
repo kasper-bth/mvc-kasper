@@ -6,11 +6,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Card\Card;
 use App\Card\DeckOfCards;
 use App\Card\CardHand;
 
 class CardController extends AbstractController
 {
+    private function getDeckFromSession(SessionInterface $session): DeckOfCards
+    {
+        return $session->get('deck') ?? new DeckOfCards();
+    }
+
+    private function saveDeckToSession(SessionInterface $session, DeckOfCards $deck): void
+    {
+        $session->set('deck', $deck);
+    }
+
     #[Route("/card", name: "card_home")]
     public function home(): Response
     {
@@ -20,16 +31,10 @@ class CardController extends AbstractController
     #[Route("/card/deck", name: "card_deck")]
     public function deck(SessionInterface $session): Response
     {
-        $deck = $session->get('deck') ?? new DeckOfCards();
-
-        $sortedCards = $deck->getSortedCards();
-
-        $sortedCardStrings = array_map(function ($card) {
-            return $card->getAsString();
-        }, $sortedCards);
-
+        $deck = $this->getDeckFromSession($session);
+        
         return $this->render('card/deck.html.twig', [
-            'deck' => $sortedCardStrings,
+            'deck' => array_map(fn($card) => $card->getAsString(), $deck->getSortedCards()),
             'count' => $deck->getNumberCards()
         ]);
     }
@@ -39,8 +44,7 @@ class CardController extends AbstractController
     {
         $deck = new DeckOfCards();
         $deck->shuffle();
-
-        $session->set('deck', $deck);
+        $this->saveDeckToSession($session, $deck);
 
         return $this->render('card/shuffle.html.twig', [
             'deck' => $deck->getString(),
@@ -49,35 +53,29 @@ class CardController extends AbstractController
     }
 
     #[Route("/card/deck/draw", name: "card_deck_draw")]
-    public function draw(
-        SessionInterface $session
-    ): Response {
-        $deck = $session->get('deck') ?? new DeckOfCards();
+    public function draw(SessionInterface $session): Response
+    {
+        $deck = $this->getDeckFromSession($session);
         $card = $deck->drawCard();
-        $session->set('deck', $deck);
+        $this->saveDeckToSession($session, $deck);
 
         return $this->render('card/draw.html.twig', [
-            'card' => $card ? $card->getAsString() : null,
+            'card' => $card?->getAsString(),
             'count' => $deck->getNumberCards()
         ]);
     }
 
     #[Route("/card/deck/draw/{number<\d+>}", name: "card_deck_draw_number")]
-    public function drawNumber(
-        int $number,
-        SessionInterface $session
-    ): Response {
-        $deck = $session->get('deck') ?? new DeckOfCards();
+    public function drawNumber(int $number, SessionInterface $session): Response
+    {
+        $deck = $this->getDeckFromSession($session);
         $hand = new CardHand();
 
-        for ($i = 0; $i < $number; $i++) {
-            $card = $deck->drawCard();
-            if ($card) {
-                $hand->addCard($card);
-            }
+        for ($i = 0; $i < $number && ($card = $deck->drawCard()); $i++) {
+            $hand->addCard($card);
         }
 
-        $session->set('deck', $deck);
+        $this->saveDeckToSession($session, $deck);
         $session->set('hand', $hand);
 
         return $this->render('card/draw_number.html.twig', [
@@ -89,17 +87,15 @@ class CardController extends AbstractController
     #[Route("/session", name: "card_session")]
     public function session(SessionInterface $session): Response
     {
-        $deck = $session->get('deck') ?? new DeckOfCards();
+        $deck = $this->getDeckFromSession($session);
         $hand = $session->get('hand');
 
-        $sessionData = [
-            'deck' => $deck ? $deck->getString() : null,
-            'hand' => $hand ? $hand->getString() : null,
-            'remaining_cards' => $deck ? $deck->getNumberCards() : 0
-        ];
-
         return $this->render('card/session.html.twig', [
-            'session_data' => $sessionData
+            'session_data' => [
+                'deck' => $deck->getString(),
+                'hand' => $hand?->getString(),
+                'remaining_cards' => $deck->getNumberCards()
+            ]
         ]);
     }
 

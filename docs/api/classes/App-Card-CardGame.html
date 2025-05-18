@@ -173,33 +173,21 @@ The goal is to get as close to 21 points without going over.</p>
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/App-Card-CardGame.html#property_bankHand">$bankHand</a>
+    <a class="" href="classes/App-Card-CardGame.html#property_bankStrategy">$bankStrategy</a>
     <span>
-                        &nbsp;: <a href="classes/App-Card-CardHand.html"><abbr title="\App\Card\CardHand">CardHand</abbr></a>            </span>
+                        &nbsp;: <a href="classes/App-Card-BankStrategy.html"><abbr title="\App\Card\BankStrategy">BankStrategy</abbr></a>            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/App-Card-CardGame.html#property_bankScore">$bankScore</a>
+    <a class="" href="classes/App-Card-CardGame.html#property_gameState">$gameState</a>
     <span>
-                        &nbsp;: int            </span>
+                        &nbsp;: <a href="classes/App-Card-GameState.html"><abbr title="\App\Card\GameState">GameState</abbr></a>            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/App-Card-CardGame.html#property_gameOver">$gameOver</a>
+    <a class="" href="classes/App-Card-CardGame.html#property_scoreCalculator">$scoreCalculator</a>
     <span>
-                        &nbsp;: bool            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/App-Card-CardGame.html#property_playerHand">$playerHand</a>
-    <span>
-                        &nbsp;: <a href="classes/App-Card-CardHand.html"><abbr title="\App\Card\CardHand">CardHand</abbr></a>            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/App-Card-CardGame.html#property_playerScore">$playerScore</a>
-    <span>
-                        &nbsp;: int            </span>
+                        &nbsp;: <a href="classes/App-Card-ScoreCalculator.html"><abbr title="\App\Card\ScoreCalculator">ScoreCalculator</abbr></a>            </span>
 </dt>
 
     </dl>
@@ -222,42 +210,36 @@ The goal is to get as close to 21 points without going over.</p>
     <span>
                                 &nbsp;: <a href="classes/App-Card-CardHand.html"><abbr title="\App\Card\CardHand">CardHand</abbr></a>    </span>
 </dt>
-<dd>Gets the bank&#039;s current hand.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Card-CardGame.html#method_getBankScore">getBankScore()</a>
     <span>
                                 &nbsp;: int    </span>
 </dt>
-<dd>Gets the bank&#039;s current score.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/App-Card-CardGame.html#method_getGameOver">getGameOver()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Card-CardGame.html#method_getPlayerHand">getPlayerHand()</a>
     <span>
                                 &nbsp;: <a href="classes/App-Card-CardHand.html"><abbr title="\App\Card\CardHand">CardHand</abbr></a>    </span>
 </dt>
-<dd>Gets the player&#039;s current hand.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Card-CardGame.html#method_getPlayerScore">getPlayerScore()</a>
     <span>
                                 &nbsp;: int    </span>
 </dt>
-<dd>Gets the player&#039;s current score.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Card-CardGame.html#method_getWinner">getWinner()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Determines the winner of the game.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/App-Card-CardGame.html#method_isGameOver">isGameOver()</a>
-    <span>
-                                &nbsp;: bool    </span>
-</dt>
-<dd>Checks if the game has ended.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Card-CardGame.html#method_playerDraw">playerDraw()</a>
@@ -281,11 +263,16 @@ The goal is to get as close to 21 points without going over.</p>
 <dd>Handles the bank&#039;s turn to draw cards.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/App-Card-CardGame.html#method_calculateScore">calculateScore()</a>
+    <a class="" href="classes/App-Card-CardGame.html#method_updateBankScore">updateBankScore()</a>
     <span>
-                                &nbsp;: int    </span>
+                                &nbsp;: void    </span>
 </dt>
-<dd>Calculates the score for a given hand of cards.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/App-Card-CardGame.html#method_updatePlayerScore">updatePlayerScore()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
 
     </dl>
 
@@ -307,9 +294,9 @@ The goal is to get as close to 21 points without going over.</p>
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_bankHand">
-        $bankHand
-        <a href="classes/App-Card-CardGame.html#property_bankHand" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_bankStrategy">
+        $bankStrategy
+        <a href="classes/App-Card-CardGame.html#property_bankStrategy" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                 </span>
@@ -317,7 +304,7 @@ The goal is to get as close to 21 points without going over.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">18</span>
+    <span class="phpdocumentor-element-found-in__line">16</span>
 
     </aside>
 
@@ -325,14 +312,12 @@ The goal is to get as close to 21 points without going over.</p>
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type"><a href="classes/App-Card-CardHand.html"><abbr title="\App\Card\CardHand">CardHand</abbr></a></span>
-    <span class="phpdocumentor-signature__name">$bankHand</span>
+        <span class="phpdocumentor-signature__type"><a href="classes/App-Card-BankStrategy.html"><abbr title="\App\Card\BankStrategy">BankStrategy</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$bankStrategy</span>
     </code>
 
     
-        <section class="phpdocumentor-description"><p>The bank's hand of cards</p>
-</section>
-
+    
     
 
     
@@ -345,9 +330,9 @@ The goal is to get as close to 21 points without going over.</p>
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_bankScore">
-        $bankScore
-        <a href="classes/App-Card-CardGame.html#property_bankScore" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_gameState">
+        $gameState
+        <a href="classes/App-Card-CardGame.html#property_gameState" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                 </span>
@@ -355,7 +340,7 @@ The goal is to get as close to 21 points without going over.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">27</span>
+    <span class="phpdocumentor-element-found-in__line">14</span>
 
     </aside>
 
@@ -363,14 +348,12 @@ The goal is to get as close to 21 points without going over.</p>
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">int</span>
-    <span class="phpdocumentor-signature__name">$bankScore</span>
+        <span class="phpdocumentor-signature__type"><a href="classes/App-Card-GameState.html"><abbr title="\App\Card\GameState">GameState</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$gameState</span>
     </code>
 
     
-        <section class="phpdocumentor-description"><p>The bank's current score</p>
-</section>
-
+    
     
 
     
@@ -383,47 +366,9 @@ The goal is to get as close to 21 points without going over.</p>
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_gameOver">
-        $gameOver
-        <a href="classes/App-Card-CardGame.html#property_gameOver" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">21</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">bool</span>
-    <span class="phpdocumentor-signature__name">$gameOver</span>
-    </code>
-
-    
-        <section class="phpdocumentor-description"><p>Flag indicating if the game has ended</p>
-</section>
-
-    
-
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_playerHand">
-        $playerHand
-        <a href="classes/App-Card-CardGame.html#property_playerHand" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_scoreCalculator">
+        $scoreCalculator
+        <a href="classes/App-Card-CardGame.html#property_scoreCalculator" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                 </span>
@@ -439,52 +384,12 @@ The goal is to get as close to 21 points without going over.</p>
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type"><a href="classes/App-Card-CardHand.html"><abbr title="\App\Card\CardHand">CardHand</abbr></a></span>
-    <span class="phpdocumentor-signature__name">$playerHand</span>
+        <span class="phpdocumentor-signature__type"><a href="classes/App-Card-ScoreCalculator.html"><abbr title="\App\Card\ScoreCalculator">ScoreCalculator</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$scoreCalculator</span>
     </code>
 
     
-        <section class="phpdocumentor-description"><p>The player's hand of cards</p>
-</section>
-
     
-
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_playerScore">
-        $playerScore
-        <a href="classes/App-Card-CardGame.html#property_playerScore" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">24</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">int</span>
-    <span class="phpdocumentor-signature__name">$playerScore</span>
-    </code>
-
-    
-        <section class="phpdocumentor-description"><p>The player's current score</p>
-</section>
-
     
 
     
@@ -512,7 +417,7 @@ The goal is to get as close to 21 points without going over.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">34</span>
+    <span class="phpdocumentor-element-found-in__line">23</span>
 
     </aside>
 
@@ -559,12 +464,11 @@ The goal is to get as close to 21 points without going over.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">169</span>
+    <span class="phpdocumentor-element-found-in__line">112</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Gets the bank&#039;s current hand.</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getBankHand</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/App-Card-CardHand.html"><abbr title="\App\Card\CardHand">CardHand</abbr></a></span></code>
@@ -581,10 +485,6 @@ The goal is to get as close to 21 points without going over.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/App-Card-CardHand.html"><abbr title="\App\Card\CardHand">CardHand</abbr></a></span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The bank's hand</p>
-</section>
-
             </section>
 
 </article>
@@ -602,12 +502,11 @@ The goal is to get as close to 21 points without going over.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">189</span>
+    <span class="phpdocumentor-element-found-in__line">114</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Gets the bank&#039;s current score.</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getBankScore</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
@@ -624,10 +523,44 @@ The goal is to get as close to 21 points without going over.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">int</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The bank's score</p>
-</section>
+            </section>
 
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getGameOver">
+        getGameOver()
+        <a href="classes/App-Card-CardGame.html#method_getGameOver" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">110</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getGameOver</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
             </section>
 
 </article>
@@ -645,12 +578,11 @@ The goal is to get as close to 21 points without going over.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">159</span>
+    <span class="phpdocumentor-element-found-in__line">111</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Gets the player&#039;s current hand.</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getPlayerHand</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/App-Card-CardHand.html"><abbr title="\App\Card\CardHand">CardHand</abbr></a></span></code>
@@ -667,10 +599,6 @@ The goal is to get as close to 21 points without going over.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/App-Card-CardHand.html"><abbr title="\App\Card\CardHand">CardHand</abbr></a></span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The player's hand</p>
-</section>
-
             </section>
 
 </article>
@@ -688,12 +616,11 @@ The goal is to get as close to 21 points without going over.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">179</span>
+    <span class="phpdocumentor-element-found-in__line">113</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Gets the player&#039;s current score.</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getPlayerScore</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
@@ -710,10 +637,6 @@ The goal is to get as close to 21 points without going over.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">int</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The player's score</p>
-</section>
-
             </section>
 
 </article>
@@ -731,12 +654,11 @@ The goal is to get as close to 21 points without going over.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">199</span>
+    <span class="phpdocumentor-element-found-in__line">116</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Determines the winner of the game.</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getWinner</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
@@ -753,53 +675,6 @@ The goal is to get as close to 21 points without going over.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>'player' if the player wins, 'bank' if the bank wins</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_isGameOver">
-        isGameOver()
-        <a href="classes/App-Card-CardGame.html#method_isGameOver" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">149</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Checks if the game has ended.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">isGameOver</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">bool</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>True if the game is over, false otherwise</p>
-</section>
-
             </section>
 
 </article>
@@ -817,7 +692,7 @@ The goal is to get as close to 21 points without going over.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">50</span>
+    <span class="phpdocumentor-element-found-in__line">37</span>
 
     </aside>
 
@@ -864,7 +739,7 @@ The goal is to get as close to 21 points without going over.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">72</span>
+    <span class="phpdocumentor-element-found-in__line">61</span>
 
     </aside>
 
@@ -913,7 +788,7 @@ The goal is to get as close to 21 points without going over.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">85</span>
+    <span class="phpdocumentor-element-found-in__line">74</span>
 
     </aside>
 
@@ -954,54 +829,67 @@ The goal is to get as close to 21 points without going over.</p>
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_calculateScore">
-        calculateScore()
-        <a href="classes/App-Card-CardGame.html#method_calculateScore" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_updateBankScore">
+        updateBankScore()
+        <a href="classes/App-Card-CardGame.html#method_updateBankScore" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">108</span>
+    <span class="phpdocumentor-element-found-in__line">103</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Calculates the score for a given hand of cards.</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">calculateScore</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/App-Card-CardHand.html"><abbr title="\App\Card\CardHand">CardHand</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$hand</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+                    <span class="phpdocumentor-signature__name">updateBankScore</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
     
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$hand</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/App-Card-CardHand.html"><abbr title="\App\Card\CardHand">CardHand</abbr></a></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The hand to calculate score for</p>
-</section>
-
-            </dd>
-            </dl>
-
+    
     
 
     
 
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">int</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The calculated score</p>
-</section>
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_updatePlayerScore">
+        updatePlayerScore()
+        <a href="classes/App-Card-CardGame.html#method_updatePlayerScore" class="headerlink"><i class="fas fa-link"></i></a>
 
-            </section>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Card/CardGame.php"><a href="files/src-card-cardgame.html"><abbr title="src/Card/CardGame.php">CardGame.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">96</span>
 
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">updatePlayerScore</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+    
+
+    
 </article>
             </section>
 
@@ -1116,11 +1004,9 @@ The goal is to get as close to 21 points without going over.</p>
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/App-Card-CardGame.html#property_bankHand">$bankHand</a></li>
-                                                    <li class=""><a href="classes/App-Card-CardGame.html#property_bankScore">$bankScore</a></li>
-                                                    <li class=""><a href="classes/App-Card-CardGame.html#property_gameOver">$gameOver</a></li>
-                                                    <li class=""><a href="classes/App-Card-CardGame.html#property_playerHand">$playerHand</a></li>
-                                                    <li class=""><a href="classes/App-Card-CardGame.html#property_playerScore">$playerScore</a></li>
+                                                    <li class=""><a href="classes/App-Card-CardGame.html#property_bankStrategy">$bankStrategy</a></li>
+                                                    <li class=""><a href="classes/App-Card-CardGame.html#property_gameState">$gameState</a></li>
+                                                    <li class=""><a href="classes/App-Card-CardGame.html#property_scoreCalculator">$scoreCalculator</a></li>
                                             </ul>
                 </li>
             
@@ -1130,14 +1016,15 @@ The goal is to get as close to 21 points without going over.</p>
                                             <li class=""><a href="classes/App-Card-CardGame.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/App-Card-CardGame.html#method_getBankHand">getBankHand()</a></li>
                                             <li class=""><a href="classes/App-Card-CardGame.html#method_getBankScore">getBankScore()</a></li>
+                                            <li class=""><a href="classes/App-Card-CardGame.html#method_getGameOver">getGameOver()</a></li>
                                             <li class=""><a href="classes/App-Card-CardGame.html#method_getPlayerHand">getPlayerHand()</a></li>
                                             <li class=""><a href="classes/App-Card-CardGame.html#method_getPlayerScore">getPlayerScore()</a></li>
                                             <li class=""><a href="classes/App-Card-CardGame.html#method_getWinner">getWinner()</a></li>
-                                            <li class=""><a href="classes/App-Card-CardGame.html#method_isGameOver">isGameOver()</a></li>
                                             <li class=""><a href="classes/App-Card-CardGame.html#method_playerDraw">playerDraw()</a></li>
                                             <li class=""><a href="classes/App-Card-CardGame.html#method_playerStop">playerStop()</a></li>
                                             <li class=""><a href="classes/App-Card-CardGame.html#method_bankPlay">bankPlay()</a></li>
-                                            <li class=""><a href="classes/App-Card-CardGame.html#method_calculateScore">calculateScore()</a></li>
+                                            <li class=""><a href="classes/App-Card-CardGame.html#method_updateBankScore">updateBankScore()</a></li>
+                                            <li class=""><a href="classes/App-Card-CardGame.html#method_updatePlayerScore">updatePlayerScore()</a></li>
                                     </ul>
             </li>
                     </ul>
