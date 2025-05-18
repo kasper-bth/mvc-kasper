@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1747575042">
-  <project timestamp="1747575042">
+<coverage generated="1747576155">
+  <project timestamp="1747576155">
     <file name="/home/kasper/dbwebb-kurser/mvc/me/report/src/Card/BankStrategy.php">
       <class name="App\Card\BankStrategy" namespace="global">
         <metrics complexity="2" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
