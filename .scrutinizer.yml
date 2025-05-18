@@ -18,14 +18,14 @@ build:
         analysis:
             tests:
                 override:
-                    - php-scrutinizer-run
+                    -   command: php-scrutinizer-run
+                        phpunit:
+                            config:
+                                verbose: false
                     #- phpcs-run # Not used, missing config file
     tests:
         override:
             -   command: "composer phpunit"
-                phpunit:
-                    config:
-                        verbose: false
                 # command: "XDEBUG_MODE=coverage vendor/bin/phpunit"
                 coverage:
                     file: "docs/coverage.clover"
