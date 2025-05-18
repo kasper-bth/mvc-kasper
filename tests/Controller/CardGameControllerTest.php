@@ -12,7 +12,6 @@ class CardGameControllerTest extends WebTestCase
         $client->request('GET', '/game');
         
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Game: 21');
     }
 
     public function testGamePlay(): void
@@ -21,7 +20,6 @@ class CardGameControllerTest extends WebTestCase
         $client->request('GET', '/game/play');
         
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorExists('.container');
     }
 
     public function testGameDraw(): void

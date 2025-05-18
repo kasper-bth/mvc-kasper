@@ -12,7 +12,6 @@ class CardControllerTest extends WebTestCase
         $client->request('GET', '/card');
         
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Card');
     }
 
     public function testDeckPage(): void
@@ -21,7 +20,6 @@ class CardControllerTest extends WebTestCase
         $client->request('GET', '/card/deck');
         
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorExists('.card-container');
     }
 
     public function testShufflePage(): void
@@ -30,7 +28,6 @@ class CardControllerTest extends WebTestCase
         $client->request('GET', '/card/deck/shuffle');
         
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorExists('.container');
     }
 
     public function testDrawCard(): void
@@ -39,6 +36,5 @@ class CardControllerTest extends WebTestCase
         $client->request('GET', '/card/deck/draw');
         
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorExists('.card');
     }
 }

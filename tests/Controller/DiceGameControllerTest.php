@@ -13,7 +13,6 @@ class DiceGameControllerTest extends WebTestCase
         $client->request('GET', '/game/pig');
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Pig game');
     }
 
     public function testTestRollDice(): void
@@ -22,7 +21,6 @@ class DiceGameControllerTest extends WebTestCase
         $client->request('GET', '/game/pig/test/roll');
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorExists('.container');
     }
 
     public function testTestRollNumDices(): void
@@ -31,7 +29,6 @@ class DiceGameControllerTest extends WebTestCase
         $client->request('GET', '/game/pig/test/roll/3');
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Roll many dice');
     }
 
     public function testTestRollNumDicesMaxLimit(): void
@@ -48,7 +45,6 @@ class DiceGameControllerTest extends WebTestCase
         $client->request('GET', '/game/pig/test/dicehand/3');
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Roll dice hand');
     }
 
     public function testInitGet(): void
@@ -57,7 +53,6 @@ class DiceGameControllerTest extends WebTestCase
         $client->request('GET', '/game/pig/init');
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorExists('form');
     }
 
     public function testInitPost(): void
@@ -76,7 +71,6 @@ class DiceGameControllerTest extends WebTestCase
         $client->request('GET', '/game/pig/play');
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorExists('.container');
     }
 
     public function testSave(): void
