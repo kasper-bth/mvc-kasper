@@ -721,6 +721,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/App-Dice-Dice.html#method_roll"
         },                {
+            "fqsen": "\\App\\Dice\\Dice\u003A\u003AgetValue\u0028\u0029",
+            "name": "getValue",
+            "summary": "",
+            "url": "classes/App-Dice-Dice.html#method_getValue"
+        },                {
             "fqsen": "\\App\\Dice\\Dice\u003A\u003AgetAsString\u0028\u0029",
             "name": "getAsString",
             "summary": "",
