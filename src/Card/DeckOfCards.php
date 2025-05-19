@@ -37,20 +37,20 @@ class DeckOfCards
     public function getSortedCards(): array
     {
         $cards = $this->cards;
-        usort($cards, function (Card $a, Card $b) {
+        usort($cards, function (Card $card1, Card $card2) {
             $suitOrder = array_flip(self::SORT_ORDER);
             $valueOrder = array_flip(self::VALUES);
-            
-            $suitCompare = $suitOrder[$a->getSuit()] <=> $suitOrder[$b->getSuit()];
+
+            $suitCompare = $suitOrder[$card1->getSuit()] <=> $suitOrder[$card2->getSuit()];
             if ($suitCompare !== 0) {
                 return $suitCompare;
             }
-            return $valueOrder[$a->getValue()] <=> $valueOrder[$b->getValue()];
+            return $valueOrder[$card1->getValue()] <=> $valueOrder[$card2->getValue()];
         });
-        
+
         return $cards;
     }
-    
+
     public function getNumberCards(): int
     {
         return count($this->cards);

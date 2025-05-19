@@ -32,9 +32,9 @@ class CardController extends AbstractController
     public function deck(SessionInterface $session): Response
     {
         $deck = $this->getDeckFromSession($session);
-        
+
         return $this->render('card/deck.html.twig', [
-            'deck' => array_map(fn($card) => $card->getAsString(), $deck->getSortedCards()),
+            'deck' => array_map(fn ($card) => $card->getAsString(), $deck->getSortedCards()),
             'count' => $deck->getNumberCards()
         ]);
     }

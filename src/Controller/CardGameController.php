@@ -54,7 +54,7 @@ class CardGameController extends AbstractController
     {
         $game = $this->getGameFromSession($session);
         $deck = $this->getDeckFromSession($session);
-        
+
         $game->playerDraw($deck);
         $this->saveGameState($session, $game, $deck);
 
@@ -66,7 +66,7 @@ class CardGameController extends AbstractController
     {
         $game = $this->getGameFromSession($session);
         $deck = $this->getDeckFromSession($session);
-        
+
         $game->playerStop($deck);
         $this->saveGameState($session, $game, $deck);
 

@@ -107,18 +107,37 @@ class CardGame
         );
     }
 
-    public function getGameOver(): bool { return $this->gameState->isGameOver(); }
-    public function getPlayerHand(): CardHand { return $this->gameState->getPlayerHand(); }
-    public function getBankHand(): CardHand { return $this->gameState->getBankHand(); }
-    public function getPlayerScore(): int { return $this->gameState->getPlayerScore(); }
-    public function getBankScore(): int { return $this->gameState->getBankScore(); }
+    public function getGameOver(): bool
+    {
+        return $this->gameState->isGameOver();
+    }
+    public function getPlayerHand(): CardHand
+    {
+        return $this->gameState->getPlayerHand();
+    }
+    public function getBankHand(): CardHand
+    {
+        return $this->gameState->getBankHand();
+    }
+    public function getPlayerScore(): int
+    {
+        return $this->gameState->getPlayerScore();
+    }
+    public function getBankScore(): int
+    {
+        return $this->gameState->getBankScore();
+    }
 
     public function getWinner(): string
     {
-        if ($this->gameState->getPlayerScore() > 21) return 'bank';
-        if ($this->gameState->getBankScore() > 21) return 'player';
-        return $this->gameState->getBankScore() >= $this->gameState->getPlayerScore() 
-            ? 'bank' 
+        if ($this->gameState->getPlayerScore() > 21) {
+            return 'bank';
+        }
+        if ($this->gameState->getBankScore() > 21) {
+            return 'player';
+        }
+        return $this->gameState->getBankScore() >= $this->gameState->getPlayerScore()
+            ? 'bank'
             : 'player';
     }
 }

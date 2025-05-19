@@ -43,21 +43,43 @@
             Därefter är ett av de stora felen att det bara är 21% coverage. Det gör att en stor del av koden inte blir testad. Det kan gör att koden blir svårare
             att upprätthålla också.
         </p>
-        <img src="https://scrutinizer-ci.com/g/kasper-bth/mvc-kasper/badges/quality-score.png?b=master">
-        <img src="https://scrutinizer-ci.com/g/kasper-bth/mvc-kasper/badges/coverage.png?b=master">
-        <img src="https://scrutinizer-ci.com/g/kasper-bth/mvc-kasper/badges/build.png?b=master">
+        <img width=300px height=250px src="{{ asset('img/scrutinizer.png') }}" alt="Scrutinizer analysis">
         <h1>Förbättringar</h1>
         <p>
-            Utfirån detta finns det flera förbättringar som kan göras och som jag tänker fokusera på. Först vill jag bli av med alla fel från scrutinizer som är 4 fel och alla
-            violations från phpmetrics som är 8 då de båda ska nå 0. Det gör så att koden inte har några fel alls och gör koden som den här felen täcker blir bättre. Sedan vill jag blev av med
+            Utfirån detta finns det flera förbättringar som kan göras och som jag tänker fokusera på. Först vill jag bli av med fel från scrutinizer som är 4 fel och alla
+            violations från phpmetrics som är 8. Det gör så att koden inte har några fel alls och gör koden som den här felen täcker blir bättre. Sedan vill jag blev av med
             så många stora röda cirklar som möjligt som menas att göra koden mindre komplex. De klasser som jag ska fokusera på är CardGame som har 18 cyklomatisk komplexitet och 73,68 
             maintability index, CardController som har 11 cyklomatisk komplexitet och 64,11 maintability index, DeckOfCards som har cyklomatisk komplexitet 9 och 41,9 maintability index 
             och CardGameController som har 8 cyklomatisk komplexitet och 67,54 maintability index. Att minska komplexiteten gör det lättare att upprätthålla koden och gör den lättare att 
             förstå och läsa. Det kommer även bli sammanhängd med att göra så att min sctrutinizer når ett betyg på 10.0 då mitt betyg nu är 9.96. Till sist vill jag nå en högre coverage då min
             coverage just nu är 21% jag vill minst nå ett gult nummer för coverage i scrutinizer som är minst 50%. Det gör så att det blir mindre risk för min kod och förbättrar min kod totalt. 
         </p>
+        <p>
+            Nu har jag implementerat förbättringarna. Då jag har lyckats få de cyklomatiska komplexiteten i totalt att gå från 4.04 till 2.94 och har minskat den cyklomatiska komplexiteten.
+            För de klasserna jag fokuserade på så var det här resultaten. CardGame har nu 10 cyklomatisk komplexitet och 75,47 maintability index, CardController har nu 4 cyklomatisk komplex och
+            65,33 maintability index, DeckOfCards har nu 9 cyklomatisk komplexitet och 42,25 maintability index och CardGameController controller har nu 4 cyklomatisk komplexitet och 64,28 
+            maintability index. Sedan minskade jag violations in phpmetrics från 8 till 5 och blev av med de större violations. Sedan blev jag av med en major issue i scrutinizer och det är nu tre
+            issues i scrutinizer. Sedan så har min sctrutinizer nu ett betyg på 10.0 och coverage har nått 51%.
+        </p>
+        <img width=300px height=250px src="{{ asset('img/metrics1.png') }}" alt="Metrics analysis">
+        <img src="https://scrutinizer-ci.com/g/kasper-bth/mvc-kasper/badges/quality-score.png?b=master">
+        <img src="https://scrutinizer-ci.com/g/kasper-bth/mvc-kasper/badges/coverage.png?b=master">
+        <img src="https://scrutinizer-ci.com/g/kasper-bth/mvc-kasper/badges/build.png?b=master">
         <h1>Diskussion</h1>
-        <p></p>
+        <p>
+            Man kan definitivt jobba emot kodkvalitet och "clean code" på detta sätt. Det är inte ett super lätt sätt att jobba på och göra sin kod bättre är lika svårt som att göra den till att
+            börja med. Att skapa tester känns som det bästa sättet att jobba emot kodkvalitet och så till att mycket del av ens kod blir testad. Att använda mätvärderna från scrutinizer skulle jag säga
+            ger en bättre bild på översikten och man kan lättare ser vad problemen ligger jämfört med phpmetrics där det är så mycket data och mer komplexa begrepp som man måste förstå. 
+        </p>
+        <p>    
+            Det finns för och nackdelar med att jobba på detta sätt då att jobba på detta sätt kan man se att man kan dela upp sin kod för att göra det lättare att förstå man kan se att man har skrivit 
+            för mycket kod och att man behöver minska antal kod man har skrivit osv. Men nackdelar är att det tar lång tid att jobba emot sin kod och förstå var problemen ligger och hur man kan minska alla nummer
+            för att se till så att nummerna minskas/ökas.
+        </p>
+        <p>    
+            Det finns säkert flera möligheter för att jobba emot "clean code" då jag just nu inte kommer på de bästa exemplerna så finns det oändligt med antal
+            sätt man kan jobba emot kodkvalitet och "clean code".
+        </p>
     </div>
     <footer class="footer">
         <p>&copy; Copyright ägs av mig och bilder tillåts att användas och har hämtats från wikipedia.</p>
