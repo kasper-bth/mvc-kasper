@@ -1,0 +1,31 @@
+{% extends "proj.html.twig" %}
+
+{% block title %}Hem{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>About</h1>
+        <p>Hej och välkommen till mitt blackjack projekt!</p>
+        <p>För detta projekt kan du välja att spela emot en bank och välja upp till tre händer.</p>
+        <p>Som vanlig blackjack kan du satsa emot banken och din total sparas under ditt "bankkonto".</p>
+        <p>Om du vill lära dig mer om blackjack kan du se reglerna nedan eller besöka <a href="https://sv.wikipedia.org/wiki/Black_Jack">blackjack wikipedia</a> för att lära dig mer.</p>
+        <h1>Regler</h1>
+        <p>Du anger ditt spelnamn när du startar din match.</p>
+        <p>Spelet börjar med spelaren och banken med inga kort.</p>
+        <p>Spelaren satsar valfritt belopp före en giv.</p>
+        <p>Spelaren drar ett kort och bestämmer att stanna eller dra ett ytterligare kort.</p>
+        <p>Om spelaren får över 21 så vinner banken och får spelarens insats.</p>
+        <p>När spelaren har bestämmt sig att stanna så blir det bankens tur.</p>
+        <p>Banken vet inte vad spelaren har för kort och plockar kort tills den får minst 17 eller har över 21.</p>
+        <p>Banken vinner vid lika så länge det är 17, 18, 19 annars blir det lika och spelaren blir inte av med sin insats men får ingen vinst.</p>
+        <p>Banken vinner om den har mer än spelaren och får spelarens insats.</p>
+        <p>Spelaren vinner om banken får över 21 eller har mer än banken och vinner lika mycket som sin insats.</p>
+        <p>Om spelarens 2 första kort är ett ess och ett klätt kort/en 10:a kallas det Black Jack och ger en och en halv gånger insatsen, såvida inte dealern också får Black Jack.</p>
+        <p>Alla klädda kort är värda 10, ess är värd 11 eller 1.</p>
+        <p>Du kan välja att spela upp till tre händer.</p>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; Copyright ägs av mig och bilder tillåts att användas och har hämtats från wikipedia.</p>
+    </footer>
+{% endblock %}
