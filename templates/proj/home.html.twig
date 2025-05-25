@@ -4,7 +4,46 @@
 
 {% block body %}
     <div class="container">
-        
+        <h1>Blackjack</h1>
+        <form action="{{ path('proj_init') }}" method="post">
+            <div>
+                <label for="nickname">Spelarnamn:</label>
+                <input type="text" id="nickname" name="nickname" required>
+            </div>
+            <div>
+                <label for="hands">Antal händer (1-3):</label>
+                <select id="hands" name="hands">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+            <div>
+                <label for="bet">Insats (10-500):</label>
+                <input type="number" id="bet" name="bet" min="10" max="500" value="10" required>
+            </div>
+            <button type="submit">Starta Spelet</button>
+        </form>
+
+        {% if players|length > 0 %}
+            <h2>Befintliga spelare</h2>
+            <ul>
+                {% for nickname, player in players %}
+                    {% if player.getBankroll() > 0 %}
+                        <li>
+                            <form action="{{ path('proj_init') }}" method="post">
+                                <input type="hidden" name="nickname" value="{{ nickname }}">
+                                <input type="hidden" name="hands" value="1">
+                                <input type="hidden" name="bet" value="10">
+                                <button type="submit">
+                                    {{ nickname }} - Bankroll: {{ player.getBankroll() }}
+                                </button>
+                            </form>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
     </div>
 
     <footer class="footer">

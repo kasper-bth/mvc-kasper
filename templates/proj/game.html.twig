@@ -1,0 +1,89 @@
+{% extends "proj.html.twig" %}
+
+{% block title %}Game{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% for message in app.flashes('error') %}
+            <div class="alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <h1>Blackjack</h1>
+        
+        {% if game and player %}
+            <div>
+                <h2>Spelare: {{ player.getNickname() }}</h2>
+                <h3>Bankroll: {{ player.getBankroll() }}</h3>
+                <h3>Insats: {{ player.getCurrentBet() }}</h3>
+                <h3>Total vinst/förlust: {{ player.getTotalWins() - player.getTotalLosses() }}</h3>
+            </div>
+
+            {% if not game.getGameOver() %}
+                {% for hand in game.getPlayerHands() %}
+                    <div {{ loop.index0 == game.getCurrentHandIndex() ? 'active-hand' : '' }}">
+                        <h3>Hand {{ loop.index }} ({{ game.getHandScore(hand) }}):</h3>
+                        {% for card in hand.getCards() %}
+                            <span class="card {{ card.getColor() }}">{{ card.getAsString() }}</span>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                
+                <div>
+                    <h3>Bankens Hand:</h3>
+                    {% for card in game.getBankHand().getCards() %}
+                        {% if loop.index0 == 0 %}
+                            <span class="card {{ card.getColor() }}">{{ card.getAsString() }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+                <div>
+                    <a href="{{ path('proj_draw') }}">Hit</a>
+                    <a href="{{ path('proj_stand') }}">Stand</a>
+                </div>
+            {% else %}
+                {% for hand in game.getPlayerHands() %}
+                    <div>
+                        <h3>Hand {{ loop.index }} ({{ game.getHandScore(hand) }}):</h3>
+                        {% for card in hand.getCards() %}
+                            <span class="card {{ card.getColor() }}">{{ card.getAsString() }}</span>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                
+                <div>
+                    <h3>Bankens Hand ({{ game.getBankScore() }}):</h3>
+                    {% for card in game.getBankHand().getCards() %}
+                        <span class="card {{ card.getColor() }}">{{ card.getAsString() }}</span>
+                    {% endfor %}
+                </div>
+                
+                <div>
+                    <h3>Resultat: 
+                        {% if game.getWinner() == 'player' %}
+                            {{ player.getNickname() }} vinner!
+                        {% elseif game.getWinner() == 'bank' %}
+                            Banken vinner!
+                        {% else %}
+                            Lika!
+                        {% endif %}
+                    </h3>
+                    
+                    <div>
+                        {% if player.getBankroll() > 0 %}
+                            <a href="{{ path('proj_config') }}">Spela igen</a>
+                        {% endif %}
+                        <a href="{{ path('proj_reset') }}">Ny spelare</a>
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <p>Spel inte startat. <a href="{{ path('proj_home') }}">Starta ett nytt spel!</a></p>
+        {% endif %}
+    </div>
+
+    <footer class="footer">
+        <p>&copy; Copyright ägs av mig och bilder tillåts att användas och har hämtats från wikipedia.</p>
+    </footer>
+{% endblock %}

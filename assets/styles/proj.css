@@ -104,53 +104,6 @@ ul {
     color: #fff;
 }
 
-.about-container {
-    align-items: flex-start;
-}
-
-.about-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    width: 100%;
-}
-
-.about-text {
-    flex: 1;
-    min-width: 300px;
-    font-family: "Basic", sans-serif;;
-}
-
-.about-image {
-    flex: 1;
-    min-width: 300px;
-    display: flex;
-    justify-content: center;
-}
-
-.about-image img {
-    max-width: 100%;
-    height: auto;
-}
-
-.report-container {
-    align-items: flex-start;
-}
-
-.section-link {
-    color: inherit;
-    text-decoration: none;
-}
-
-.section-link:hover {
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.report-section {
-    scroll-margin-top: 10px;
-}
-
 .footer {
     display: flex;
     background: #5f0202;
@@ -170,28 +123,11 @@ input {
     font-size: 1em;
 }
 
-.die {
-    font-size: 2em;
-}
-
-.flash-notice {
+.alert-danger {
     padding: 0.5em;
-    color: #004085;
-    background-color: #cce5ff;
-    border-color: #b8daff;
-}
-.flash-notice:before {
-    content: "ⓘ";
-}
-
-.flash-warning {
-    padding: 0.5em;
-    color: #856404;
-    background-color: #fff3cd;
-    border-color: #ffeeba;
-}
-.flash-warning:before {
-    content: "⚠";
+    color: #c00000;
+    background-color: #500000;
+    border-color: #5e0000;
 }
 
 .card-container {

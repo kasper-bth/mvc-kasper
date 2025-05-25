@@ -1,0 +1,31 @@
+{% extends "proj.html.twig" %}
+
+{% block title %}Game Configuration{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Uppdatera för nytt spel!</h1>
+        
+        <form action="{{ path('proj_new_round') }}" method="post">
+            <div>
+                <label for="hands">Antal händer (1-3):</label>
+                <select id="hands" name="hands" required>
+                    {% for i in 1..max_hands %}
+                        <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="bet">Insats (10-{{ player.getBankroll() }}):</label>
+                <input type="number" id="bet" name="bet" 
+                       min="10" max="{{ player.getBankroll() }}" 
+                       value="10" required>
+            </div>
+            <button type="submit">Starta spelet</button>
+        </form>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; Copyright ägs av mig och bilder tillåts att användas och har hämtats från wikipedia.</p>
+    </footer>
+{% endblock %}
