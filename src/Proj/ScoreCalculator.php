@@ -25,14 +25,14 @@ class ScoreCalculator
     private function getCardValue(Proj $card, int &$aces): int
     {
         $value = $card->getValue();
-        
+
         if (in_array($value, ['jack', 'queen', 'king'])) {
             return 10;
         } elseif ($value === 'ace') {
             $aces++;
             return 1;
         }
-        
+
         return (int)$value;
     }
 }

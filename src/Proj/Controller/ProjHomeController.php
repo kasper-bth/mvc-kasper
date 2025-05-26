@@ -14,12 +14,12 @@ class ProjHomeController extends AbstractController
     {
         $currentPlayer = $session->get('current_player');
         $serializedPlayers = $session->get('blackjack_players', []);
-        
+
         $players = [];
         foreach ($serializedPlayers as $nickname => $serializedPlayer) {
             $players[$nickname] = unserialize($serializedPlayer);
         }
-        
+
         return $this->render('proj/home.html.twig', [
             'current_player' => $currentPlayer,
             'players' => $players

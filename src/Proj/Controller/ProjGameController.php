@@ -18,7 +18,7 @@ class ProjGameController extends AbstractController
     {
         $game = $session->get('blackjack_game');
         $player = $session->get('blackjack_player');
-        
+
         if (!$game || !$player) {
             return $this->redirectToRoute('proj_home');
         }
@@ -37,15 +37,12 @@ class ProjGameController extends AbstractController
         $betAmount = (int)$request->request->get('bet', 10);
 
         $players = $session->get('blackjack_players', []);
-        
         $session->remove('blackjack_game');
         $session->remove('blackjack_player');
-        
-        if (array_key_exists($nickname, $players)) {
-            $player = unserialize($players[$nickname]);
-        } else {
-            $player = new Player($nickname);
-        }
+
+        $player = array_key_exists($nickname, $players)
+            ? unserialize($players[$nickname])
+            : new Player($nickname);
 
         if (!$player->placeBet($betAmount)) {
             $this->addFlash('error', 'Ogiltig insats');
@@ -54,13 +51,12 @@ class ProjGameController extends AbstractController
 
         $deck = new ProjDeck();
         $game = new ProjGame($deck, $player);
-        
+
         for ($i = 1; $i < $numHands; $i++) {
             $game->addHand();
         }
 
         $this->saveGameState($session, $game, $player, $nickname);
-
         return $this->redirectToRoute('proj_game');
     }
 
@@ -100,7 +96,6 @@ class ProjGameController extends AbstractController
         $session->set('current_player', $nickname);
     }
 
-    
     #[Route("/proj/new-round", name: "proj_new_round", methods: ['POST'])]
     public function newRound(Request $request, SessionInterface $session): Response
     {
@@ -124,11 +119,11 @@ class ProjGameController extends AbstractController
 
         $deck = new ProjDeck();
         $game = new ProjGame($deck, $player);
-        
+
         for ($i = 1; $i < $numHands; $i++) {
             $game->addHand();
         }
-        
+
         $session->set('blackjack_game', $game);
         $session->set('blackjack_player', $player);
 

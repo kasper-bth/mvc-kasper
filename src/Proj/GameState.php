@@ -12,6 +12,7 @@ class GameState
     public function __construct()
     {
         $this->bankHand = new ProjHand();
+        $this->scoreCalculator = new ScoreCalculator();
     }
 
     public function getBankHand(): ProjHand
@@ -21,7 +22,7 @@ class GameState
 
     public function getBankScore(): int
     {
-        return $this->scoreCalculator->calculate($this->bankHand);
+        return $this->bankScore;
     }
 
     public function setBankScore(int $score): void
@@ -42,23 +43,31 @@ class GameState
     public function evaluateResults(Player $player, array $playerHands, ProjHand $bankHand, ScoreCalculator $calculator): void
     {
         $bankScore = $calculator->calculate($bankHand);
-        
+
         foreach ($playerHands as $hand) {
             $handScore = $calculator->calculate($hand);
-            
+
             if ($handScore > 21) {
                 $player->lose();
-            } elseif ($bankScore > 21) {
-                $player->win();
-            } elseif ($this->hasBlackjack($hand) && !$this->hasBlackjack($bankHand)) {
-                $player->win(1.5);
-            } elseif ($handScore > $bankScore) {
-                $player->win();
-            } elseif ($bankScore > $handScore) {
-                $player->lose();
-            } else {
-                $player->push();
+                continue;
             }
+            if ($bankScore > 21) {
+                $player->win();
+                continue;
+            }
+            if ($this->hasBlackjack($hand) && !$this->hasBlackjack($bankHand)) {
+                $player->win(1.5);
+                continue;
+            }
+            if ($handScore > $bankScore) {
+                $player->win();
+                continue;
+            }
+            if ($bankScore > $handScore) {
+                $player->lose();
+                continue;
+            }
+            $player->push();
         }
     }
 
@@ -67,12 +76,12 @@ class GameState
         if ($hand->getNumberCards() != 2) {
             return false;
         }
-        
+
         $values = $hand->getValues();
-        return (in_array('ace', $values) && 
-                (in_array('10', $values) || 
-                in_array('jack', $values) || 
-                in_array('queen', $values) || 
+        return (in_array('ace', $values) &&
+                (in_array('10', $values) ||
+                in_array('jack', $values) ||
+                in_array('queen', $values) ||
                 in_array('king', $values)));
     }
 }

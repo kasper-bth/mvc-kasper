@@ -29,26 +29,26 @@ class ProjPlayerController extends AbstractController
     {
         $game = $session->get('blackjack_game');
         $player = $session->get('blackjack_player');
-        
+
         if ($game && $player) {
             $numHands = (int)$request->request->get('hands');
             $betAmount = (int)$request->request->get('bet');
-            
+
             $currentHands = count($game->getPlayerHands());
             if ($numHands > $currentHands) {
                 for ($i = $currentHands; $i < $numHands; $i++) {
                     $game->addHand();
                 }
             }
-            
+
             if (!$player->updateBet($betAmount)) {
                 $this->addFlash('error', 'Ogiltig insats');
             }
-            
+
             $session->set('blackjack_game', $game);
             $session->set('blackjack_player', $player);
         }
-        
+
         return $this->redirectToRoute('proj_game');
     }
 }

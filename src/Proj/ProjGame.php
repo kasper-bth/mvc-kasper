@@ -33,16 +33,39 @@ class ProjGame
             $this->handManager->getCurrentHand()->addCard($card);
             $score = $this->getCurrentScore();
 
-            if ($score > 21 && !$this->handManager->nextHand()) {
-                $this->gameState->endGame();
-                $this->gameState->evaluateResults(
-                    $this->player,
-                    $this->handManager->getAllHands(),
-                    $this->gameState->getBankHand(),
-                    $this->scoreCalculator
-                );
+            if ($score > 21) {
+                if (!$this->handManager->nextHand()) {
+
+                    if ($this->hasAnyValidHand()) {
+
+                        $this->bankStrategy->playTurn(
+                            $this->gameState->getBankHand(),
+                            $this->deck,
+                            $this->scoreCalculator,
+                            $this->handManager->getAllHands()
+                        );
+                    }
+
+                    $this->gameState->endGame();
+                    $this->gameState->evaluateResults(
+                        $this->player,
+                        $this->handManager->getAllHands(),
+                        $this->gameState->getBankHand(),
+                        $this->scoreCalculator
+                    );
+                }
             }
         }
+    }
+
+    private function hasAnyValidHand(): bool
+    {
+        foreach ($this->getPlayerHands() as $hand) {
+            if ($this->getHandScore($hand) <= 21) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function playerStop(): void
@@ -50,14 +73,16 @@ class ProjGame
         if ($this->handManager->nextHand()) {
             return;
         }
-        
-        $this->bankStrategy->playTurn(
-            $this->gameState->getBankHand(),
-            $this->deck,
-            $this->scoreCalculator,
-            $this->handManager->getAllHands()
-        );
-        
+
+        if ($this->hasAnyValidHand()) {
+            $this->bankStrategy->playTurn(
+                $this->gameState->getBankHand(),
+                $this->deck,
+                $this->scoreCalculator,
+                $this->handManager->getAllHands()
+            );
+        }
+
         $this->gameState->endGame();
         $this->gameState->evaluateResults(
             $this->player,
@@ -127,30 +152,45 @@ class ProjGame
     public function getWinner(): string
     {
         $bankScore = $this->getBankScore();
-        $playerWins = 0;
-        $bankWins = 0;
 
+        $bestPlayerScore = 0;
         foreach ($this->getPlayerHands() as $hand) {
             $handScore = $this->getHandScore($hand);
-            
-            if ($handScore > 21) {
-                $bankWins++;
-            } elseif ($bankScore > 21) {
-                $playerWins++;
-            } elseif ($this->gameState->hasBlackjack($hand) && !$this->gameState->hasBlackjack($this->getBankHand())) {
-                $playerWins++;
-            } elseif ($handScore > $bankScore) {
-                $playerWins++;
-            } elseif ($bankScore > $handScore) {
-                $bankWins++;
+            if ($handScore <= 21 && $handScore > $bestPlayerScore) {
+                $bestPlayerScore = $handScore;
             }
         }
 
-        if ($playerWins > $bankWins) {
-            return 'player';
-        } elseif ($bankWins > $playerWins) {
+        if ($bestPlayerScore === 0) {
             return 'bank';
         }
-        return 'push';
+
+        $result = $this->determineHandResult($bestPlayerScore, $bankScore, $this->getPlayerHands()[0]);
+
+        return $result;
+    }
+
+    private function determineHandResult(int $playerScore, int $bankScore, ProjHand $hand): string
+    {
+        if ($bankScore > 21) {
+            return 'player';
+        }
+
+        $playerHasBlackjack = $this->gameState->hasBlackjack($hand);
+        $bankHasBlackjack = $this->gameState->hasBlackjack($this->getBankHand());
+
+        if ($playerHasBlackjack && !$bankHasBlackjack) {
+            return 'player';
+        }
+
+        if ($playerHasBlackjack && $bankHasBlackjack) {
+            return 'push';
+        }
+
+        if ($playerScore === $bankScore) {
+            return in_array($bankScore, [17, 18, 19]) ? 'bank' : 'push';
+        }
+
+        return ($playerScore > $bankScore) ? 'player' : 'bank';
     }
 }

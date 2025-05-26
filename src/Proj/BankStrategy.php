@@ -13,13 +13,13 @@ class BankStrategy
     {
         $bankScore = $calculator->calculate($bankHand);
         $playerMaxScore = $this->getHighestPlayerScore($playerHands, $calculator);
-        
+
         while ($this->shouldDraw($bankScore, $playerMaxScore)) {
             $card = $deck->drawCard();
             if ($card) {
                 $bankHand->addCard($card);
                 $bankScore = $calculator->calculate($bankHand);
-                
+
                 if ($bankScore > 21) {
                     break;
                 }

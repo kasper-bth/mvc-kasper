@@ -16,23 +16,21 @@ class ProjResetController extends AbstractController
         if ($nickname) {
             $players = $session->get('blackjack_players', []);
             $game = $session->get('blackjack_game');
-            
-            if ($game && $game->getPlayer()->getBankroll() > 0) {
-                $players[$nickname] = serialize($game->getPlayer());
-                $session->set('blackjack_players', $players);
-            } else {
-                unset($players[$nickname]);
-                $session->set('blackjack_players', $players);
-            }
+
+            $shouldSavePlayer = $game && $game->getPlayer()->getBankroll() > 0;
+            $players[$nickname] = $shouldSavePlayer ? serialize($game->getPlayer()) : null;
+            unset($players[$nickname]);
+
+            $session->set('blackjack_players', array_filter($players));
         }
-        
+
         $session->remove('blackjack_game');
         $session->remove('blackjack_player');
         $session->remove('current_player');
-        
+
         return $this->redirectToRoute('proj_home');
     }
-    
+
     #[Route("/proj/full-reset", name: "proj_full_reset")]
     public function fullReset(SessionInterface $session): Response
     {

@@ -21,7 +21,7 @@
 
             {% if not game.getGameOver() %}
                 {% for hand in game.getPlayerHands() %}
-                    <div {{ loop.index0 == game.getCurrentHandIndex() ? 'active-hand' : '' }}">
+                    <div class="hand {{ loop.index0 == game.getCurrentHandIndex() ? 'active-hand' : '' }}">
                         <h3>Hand {{ loop.index }} ({{ game.getHandScore(hand) }}):</h3>
                         {% for card in hand.getCards() %}
                             <span class="card {{ card.getColor() }}">{{ card.getAsString() }}</span>

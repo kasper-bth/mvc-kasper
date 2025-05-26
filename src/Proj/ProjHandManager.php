@@ -28,8 +28,11 @@ class ProjHandManager
 
     public function nextHand(): bool
     {
+        if ($this->currentIndex + 1 >= count($this->hands)) {
+            return false;
+        }
         $this->currentIndex++;
-        return $this->currentIndex < count($this->hands);
+        return true;
     }
 
     public function getAllHands(): array

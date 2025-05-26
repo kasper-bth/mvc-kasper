@@ -69,4 +69,9 @@ class ProjDeck
         }
         return $strings;
     }
+
+    public function setCards(array $cards): void
+    {
+        $this->cards = $cards;
+    }
 }

@@ -36,14 +36,16 @@ class Player
         return true;
     }
 
-    public function win(float $multiplier = 1.0): void {
+    public function win(float $multiplier = 1.0): void
+    {
         $winnings = (int)($this->currentBet * $multiplier);
         $this->bankroll += $this->currentBet + $winnings;
         $this->totalWins += $winnings;
         $this->currentBet = 0;
     }
 
-    public function lose(): void {
+    public function lose(): void
+    {
         $this->totalLosses += $this->currentBet;
         $this->currentBet = 0;
     }
@@ -59,23 +61,25 @@ class Player
         return $this->currentBet;
     }
 
-    public function getTotalWins(): int {
+    public function getTotalWins(): int
+    {
         return $this->totalWins;
     }
 
-    public function getTotalLosses(): int {
+    public function getTotalLosses(): int
+    {
         return $this->totalLosses;
     }
 
     public function updateBet(int $newAmount): bool
     {
         $this->bankroll += $this->currentBet;
-        
+
         if ($newAmount <= 0 || $newAmount > $this->bankroll) {
             $this->bankroll -= $this->currentBet;
             return false;
         }
-        
+
         $this->currentBet = $newAmount;
         $this->bankroll -= $newAmount;
         return true;
