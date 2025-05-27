@@ -9,6 +9,7 @@ class ProjPlayerControllerTest extends WebTestCase
     public function testConfigRedirectsWhenNoPlayer(): void
     {
         $client = static::createClient();
+        $client->catchExceptions(false);
         $client->request('GET', '/proj/config');
         
         $this->assertResponseRedirects('/proj');
@@ -17,6 +18,7 @@ class ProjPlayerControllerTest extends WebTestCase
     public function testConfigWithPlayer(): void
     {
         $client = static::createClient();
+        $client->catchExceptions(false);
         
         $client->request('POST', '/proj/init', [
             'nickname' => 'testplayer',
@@ -32,6 +34,7 @@ class ProjPlayerControllerTest extends WebTestCase
     public function testUpdateConfig(): void
     {
         $client = static::createClient();
+        $client->catchExceptions(false);
         
         $client->request('POST', '/proj/init', [
             'nickname' => 'testplayer',

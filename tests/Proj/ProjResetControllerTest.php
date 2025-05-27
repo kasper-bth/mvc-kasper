@@ -9,6 +9,7 @@ class ProjResetControllerTest extends WebTestCase
     public function testReset(): void
     {
         $client = static::createClient();
+        $client->catchExceptions(false);
         
         $client->request('POST', '/proj/init', [
             'nickname' => 'testplayer',
@@ -26,6 +27,7 @@ class ProjResetControllerTest extends WebTestCase
     public function testFullReset(): void
     {
         $client = static::createClient();
+        $client->catchExceptions(false);
         
         $client->request('POST', '/proj/init', [
             'nickname' => 'testplayer',

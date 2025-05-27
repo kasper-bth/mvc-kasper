@@ -9,6 +9,7 @@ class ProjHomeControllerTest extends WebTestCase
     public function testHomePage(): void
     {
         $client = static::createClient();
+        $client->catchExceptions(false);
         $client->request('GET', '/proj');
         
         $this->assertResponseIsSuccessful();
@@ -18,6 +19,7 @@ class ProjHomeControllerTest extends WebTestCase
     public function testAboutPage(): void
     {
         $client = static::createClient();
+        $client->catchExceptions(false);
         $client->request('GET', '/proj/about');
         
         $this->assertResponseIsSuccessful();

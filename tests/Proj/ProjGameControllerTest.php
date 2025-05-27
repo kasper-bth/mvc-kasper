@@ -9,6 +9,7 @@ class ProjGameControllerTest extends WebTestCase
     public function testGameRedirectsWhenNoSession(): void
     {
         $client = static::createClient();
+        $client->catchExceptions(false);
         $client->request('GET', '/proj/game');
         $this->assertResponseRedirects('/proj');
     }
@@ -16,6 +17,7 @@ class ProjGameControllerTest extends WebTestCase
     public function testGameRendersTemplateWithGameData(): void
     {
         $client = static::createClient();
+        $client->catchExceptions(false);
         
         $client->request('POST', '/proj/init', [
             'nickname' => 'testplayer',
@@ -32,6 +34,8 @@ class ProjGameControllerTest extends WebTestCase
     public function testInitGameWithNewPlayer(): void
     {
         $client = static::createClient();
+        $client->catchExceptions(false);
+
         $client->request('POST', '/proj/init', [
             'nickname' => 'testplayer',
             'hands' => 1,
@@ -44,6 +48,7 @@ class ProjGameControllerTest extends WebTestCase
     public function testDrawCard(): void
     {
         $client = static::createClient();
+        $client->catchExceptions(false);
         
         $client->request('POST', '/proj/init', [
             'nickname' => 'testplayer',
@@ -61,6 +66,7 @@ class ProjGameControllerTest extends WebTestCase
     public function testStand(): void
     {
         $client = static::createClient();
+        $client->catchExceptions(false);
         
         $client->request('POST', '/proj/init', [
             'nickname' => 'testplayer',
@@ -75,6 +81,7 @@ class ProjGameControllerTest extends WebTestCase
     public function testNewRound(): void
     {
         $client = static::createClient();
+        $client->catchExceptions(false);
         
         $client->request('POST', '/proj/init', [
             'nickname' => 'testplayer',
@@ -95,6 +102,7 @@ class ProjGameControllerTest extends WebTestCase
     public function testNewRoundWithInvalidBet(): void
     {
         $client = static::createClient();
+        $client->catchExceptions(false);
         
         $client->request('POST', '/proj/init', [
             'nickname' => 'testplayer',
