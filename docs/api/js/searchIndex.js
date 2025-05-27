@@ -1056,6 +1056,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/App-Proj-GameState.html#method_evaluateResults"
         },                {
+            "fqsen": "\\App\\Proj\\GameState\u003A\u003AevaluateSingleHand\u0028\u0029",
+            "name": "evaluateSingleHand",
+            "summary": "",
+            "url": "classes/App-Proj-GameState.html#method_evaluateSingleHand"
+        },                {
             "fqsen": "\\App\\Proj\\GameState\u003A\u003AhasBlackjack\u0028\u0029",
             "name": "hasBlackjack",
             "summary": "",
@@ -1291,6 +1296,21 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/App-Proj-ProjGame.html#method_playerDraw"
         },                {
+            "fqsen": "\\App\\Proj\\ProjGame\u003A\u003AhandleGameEnd\u0028\u0029",
+            "name": "handleGameEnd",
+            "summary": "",
+            "url": "classes/App-Proj-ProjGame.html#method_handleGameEnd"
+        },                {
+            "fqsen": "\\App\\Proj\\ProjGame\u003A\u003AplayBankTurn\u0028\u0029",
+            "name": "playBankTurn",
+            "summary": "",
+            "url": "classes/App-Proj-ProjGame.html#method_playBankTurn"
+        },                {
+            "fqsen": "\\App\\Proj\\ProjGame\u003A\u003AevaluateFinalResults\u0028\u0029",
+            "name": "evaluateFinalResults",
+            "summary": "",
+            "url": "classes/App-Proj-ProjGame.html#method_evaluateFinalResults"
+        },                {
             "fqsen": "\\App\\Proj\\ProjGame\u003A\u003AhasAnyValidHand\u0028\u0029",
             "name": "hasAnyValidHand",
             "summary": "",
@@ -1370,6 +1390,11 @@ Search.appendIndex(
             "name": "determineHandResult",
             "summary": "",
             "url": "classes/App-Proj-ProjGame.html#method_determineHandResult"
+        },                {
+            "fqsen": "\\App\\Proj\\ProjGame\u003A\u003AhandleEqualScores\u0028\u0029",
+            "name": "handleEqualScores",
+            "summary": "",
+            "url": "classes/App-Proj-ProjGame.html#method_handleEqualScores"
         },                {
             "fqsen": "\\App\\Proj\\ProjGame\u003A\u003A\u0024gameState",
             "name": "gameState",

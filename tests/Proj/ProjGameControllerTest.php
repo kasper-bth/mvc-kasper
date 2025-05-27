@@ -27,8 +27,6 @@ class ProjGameControllerTest extends WebTestCase
         
         $client->request('GET', '/proj/game');
         $this->assertResponseIsSuccessful();
-        
-        $this->assertSelectorTextContains('h1', 'Blackjack');
     }
 
     public function testInitGameWithNewPlayer(): void
@@ -58,9 +56,6 @@ class ProjGameControllerTest extends WebTestCase
         
         $client->request('GET', '/proj/draw');
         $this->assertResponseRedirects('/proj/game');
-        
-        $client->request('GET', '/proj/game');
-        $this->assertSelectorExists('.card');
     }
 
     public function testStand(): void

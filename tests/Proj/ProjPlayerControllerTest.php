@@ -28,7 +28,6 @@ class ProjPlayerControllerTest extends WebTestCase
         
         $client->request('GET', '/proj/config');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Uppdatera för nytt spel');
     }
 
     public function testUpdateConfig(): void

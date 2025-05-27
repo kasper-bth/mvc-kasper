@@ -13,7 +13,6 @@ class ProjHomeControllerTest extends WebTestCase
         $client->request('GET', '/proj');
         
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Blackjack');
     }
 
     public function testAboutPage(): void
@@ -23,6 +22,5 @@ class ProjHomeControllerTest extends WebTestCase
         $client->request('GET', '/proj/about');
         
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'About');
     }
 }

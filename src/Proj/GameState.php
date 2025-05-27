@@ -46,29 +46,38 @@ class GameState
 
         foreach ($playerHands as $hand) {
             $handScore = $calculator->calculate($hand);
-
-            if ($handScore > 21) {
-                $player->lose();
-                continue;
-            }
-            if ($bankScore > 21) {
-                $player->win();
-                continue;
-            }
-            if ($this->hasBlackjack($hand) && !$this->hasBlackjack($bankHand)) {
-                $player->win(1.5);
-                continue;
-            }
-            if ($handScore > $bankScore) {
-                $player->win();
-                continue;
-            }
-            if ($bankScore > $handScore) {
-                $player->lose();
-                continue;
-            }
-            $player->push();
+            $this->evaluateSingleHand($player, $hand, $handScore, $bankHand, $bankScore);
         }
+    }
+
+    private function evaluateSingleHand(Player $player, ProjHand $hand, int $handScore, ProjHand $bankHand, int $bankScore): void
+    {
+        if ($handScore > 21) {
+            $player->lose();
+            return;
+        }
+
+        if ($bankScore > 21) {
+            $player->win();
+            return;
+        }
+
+        if ($this->hasBlackjack($hand) && !$this->hasBlackjack($bankHand)) {
+            $player->win(1.5);
+            return;
+        }
+
+        if ($handScore > $bankScore) {
+            $player->win();
+            return;
+        }
+
+        if ($bankScore > $handScore) {
+            $player->lose();
+            return;
+        }
+
+        $player->push();
     }
 
     public function hasBlackjack(ProjHand $hand): bool

@@ -29,33 +29,52 @@ class ProjGame
         }
 
         $card = $this->deck->drawCard();
-        if ($card) {
-            $this->handManager->getCurrentHand()->addCard($card);
-            $score = $this->getCurrentScore();
-
-            if ($score > 21) {
-                if (!$this->handManager->nextHand()) {
-
-                    if ($this->hasAnyValidHand()) {
-
-                        $this->bankStrategy->playTurn(
-                            $this->gameState->getBankHand(),
-                            $this->deck,
-                            $this->scoreCalculator,
-                            $this->handManager->getAllHands()
-                        );
-                    }
-
-                    $this->gameState->endGame();
-                    $this->gameState->evaluateResults(
-                        $this->player,
-                        $this->handManager->getAllHands(),
-                        $this->gameState->getBankHand(),
-                        $this->scoreCalculator
-                    );
-                }
-            }
+        if (!$card) {
+            return;
         }
+
+        $this->handManager->getCurrentHand()->addCard($card);
+        $score = $this->getCurrentScore();
+
+        if ($score <= 21) {
+            return;
+        }
+
+        if ($this->handManager->nextHand()) {
+            return;
+        }
+
+        $this->handleGameEnd();
+    }
+
+    private function handleGameEnd(): void
+    {
+        if ($this->hasAnyValidHand()) {
+            $this->playBankTurn();
+        }
+
+        $this->gameState->endGame();
+        $this->evaluateFinalResults();
+    }
+
+    private function playBankTurn(): void
+    {
+        $this->bankStrategy->playTurn(
+            $this->gameState->getBankHand(),
+            $this->deck,
+            $this->scoreCalculator,
+            $this->handManager->getAllHands()
+        );
+    }
+
+    private function evaluateFinalResults(): void
+    {
+        $this->gameState->evaluateResults(
+            $this->player,
+            $this->handManager->getAllHands(),
+            $this->gameState->getBankHand(),
+            $this->scoreCalculator
+        );
     }
 
     private function hasAnyValidHand(): bool
@@ -177,25 +196,21 @@ class ProjGame
 
     private function determineHandResult(int $playerScore, int $bankScore, ProjHand $hand): string
     {
-        if ($bankScore > 21) {
-            return 'player';
-        }
-
         $playerHasBlackjack = $this->gameState->hasBlackjack($hand);
         $bankHasBlackjack = $this->gameState->hasBlackjack($this->getBankHand());
 
-        if ($playerHasBlackjack && !$bankHasBlackjack) {
-            return 'player';
-        }
+        return match (true) {
+            $bankScore > 21 => 'player',
+            $playerHasBlackjack && !$bankHasBlackjack => 'player',
+            $playerHasBlackjack && $bankHasBlackjack => 'push',
+            $playerScore === $bankScore => $this->handleEqualScores($bankScore),
+            $playerScore > $bankScore => 'player',
+            default => 'bank'
+        };
+    }
 
-        if ($playerHasBlackjack && $bankHasBlackjack) {
-            return 'push';
-        }
-
-        if ($playerScore === $bankScore) {
-            return in_array($bankScore, [17, 18, 19]) ? 'bank' : 'push';
-        }
-
-        return ($playerScore > $bankScore) ? 'player' : 'bank';
+    private function handleEqualScores(int $bankScore): string
+    {
+        return in_array($bankScore, [17, 18, 19]) ? 'bank' : 'push';
     }
 }
