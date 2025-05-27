@@ -139,6 +139,11 @@ class ProjGame
         return $this->gameState->getBankHand();
     }
 
+    public function getGameState(): GameState
+    {
+        return $this->gameState;
+    }
+
     public function getBankScore(): int
     {
         return $this->scoreCalculator->calculate($this->gameState->getBankHand());

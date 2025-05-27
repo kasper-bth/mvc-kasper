@@ -19,9 +19,9 @@ class ProjResetController extends AbstractController
 
             $shouldSavePlayer = $game && $game->getPlayer()->getBankroll() > 0;
             $players[$nickname] = $shouldSavePlayer ? serialize($game->getPlayer()) : null;
-            unset($players[$nickname]);
+            $players = array_filter($players);
 
-            $session->set('blackjack_players', array_filter($players));
+            $session->set('blackjack_players', $players);
         }
 
         $session->remove('blackjack_game');

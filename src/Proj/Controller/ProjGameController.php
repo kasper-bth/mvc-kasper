@@ -85,11 +85,12 @@ class ProjGameController extends AbstractController
         }
         return $this->redirectToRoute('proj_game');
     }
-
     private function saveGameState(SessionInterface $session, ProjGame $game, Player $player, string $nickname): void
     {
         $players = $session->get('blackjack_players', []);
-        $players[$nickname] = serialize($player);
+
+        $players[$nickname] = serialize(clone $player);
+
         $session->set('blackjack_players', $players);
         $session->set('blackjack_game', $game);
         $session->set('blackjack_player', $player);

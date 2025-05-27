@@ -1346,6 +1346,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/App-Proj-ProjGame.html#method_getBankHand"
         },                {
+            "fqsen": "\\App\\Proj\\ProjGame\u003A\u003AgetGameState\u0028\u0029",
+            "name": "getGameState",
+            "summary": "",
+            "url": "classes/App-Proj-ProjGame.html#method_getGameState"
+        },                {
             "fqsen": "\\App\\Proj\\ProjGame\u003A\u003AgetBankScore\u0028\u0029",
             "name": "getBankScore",
             "summary": "",
