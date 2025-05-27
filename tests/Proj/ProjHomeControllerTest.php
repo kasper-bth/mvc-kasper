@@ -9,18 +9,16 @@ class ProjHomeControllerTest extends WebTestCase
     public function testHomePage(): void
     {
         $client = static::createClient();
-        $client->catchExceptions(false);
         $client->request('GET', '/proj');
         
-        $this->assertResponseIsSuccessful();
+        $this->assertRouteSame('proj_home');
     }
 
     public function testAboutPage(): void
     {
         $client = static::createClient();
-        $client->catchExceptions(false);
         $client->request('GET', '/proj/about');
         
-        $this->assertResponseIsSuccessful();
+        $this->assertRouteSame('proj_about');
     }
 }

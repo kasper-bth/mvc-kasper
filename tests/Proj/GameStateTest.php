@@ -92,4 +92,55 @@ class GameStateTest extends TestCase
         $state->setBankScore(17);
         $this->assertEquals(17, $state->getBankScore());
     }
+
+    public function testEvaluateResultsPlayerWins(): void
+    {
+        $state = new GameState();
+        $player = new Player('test');
+        $playerHand = new ProjHand();
+        $bankHand = new ProjHand();
+        $calculator = new ScoreCalculator();
+        
+        $playerHand->addCard(new Proj('hearts', '10'));
+        $playerHand->addCard(new Proj('diamonds', '8'));
+        $bankHand->addCard(new Proj('hearts', '10'));
+        $bankHand->addCard(new Proj('diamonds', '7'));
+        $player->placeBet(10);
+        $state->evaluateResults($player, [$playerHand], $bankHand, $calculator);
+        $this->assertEquals(1010, $player->getBankroll());
+    }
+
+    public function testEvaluateResultsBankWins(): void
+    {
+        $state = new GameState();
+        $player = new Player('test');
+        $playerHand = new ProjHand();
+        $bankHand = new ProjHand();
+        $calculator = new ScoreCalculator();
+        
+        $playerHand->addCard(new Proj('hearts', '10'));
+        $playerHand->addCard(new Proj('diamonds', '7'));
+        $bankHand->addCard(new Proj('hearts', '10'));
+        $bankHand->addCard(new Proj('diamonds', '8'));
+        $player->placeBet(10);
+        $state->evaluateResults($player, [$playerHand], $bankHand, $calculator);
+        $this->assertEquals(990, $player->getBankroll());
+    }
+
+    public function testEvaluateResultsPush(): void
+    {
+        $state = new GameState();
+        $player = new Player('test');
+        $playerHand = new ProjHand();
+        $bankHand = new ProjHand();
+        $calculator = new ScoreCalculator();
+        
+        $playerHand->addCard(new Proj('hearts', '10'));
+        $playerHand->addCard(new Proj('diamonds', '7'));
+        $bankHand->addCard(new Proj('hearts', '10'));
+        $bankHand->addCard(new Proj('diamonds', '7'));
+        $player->placeBet(10);
+        $state->evaluateResults($player, [$playerHand], $bankHand, $calculator);
+        $this->assertEquals(1000, $player->getBankroll());
+    }
 }

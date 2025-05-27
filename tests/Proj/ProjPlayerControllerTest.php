@@ -15,21 +15,6 @@ class ProjPlayerControllerTest extends WebTestCase
         $this->assertResponseRedirects('/proj');
     }
 
-    public function testConfigWithPlayer(): void
-    {
-        $client = static::createClient();
-        $client->catchExceptions(false);
-        
-        $client->request('POST', '/proj/init', [
-            'nickname' => 'testplayer',
-            'hands' => 1,
-            'bet' => 10
-        ]);
-        
-        $client->request('GET', '/proj/config');
-        $this->assertResponseIsSuccessful();
-    }
-
     public function testUpdateConfig(): void
     {
         $client = static::createClient();

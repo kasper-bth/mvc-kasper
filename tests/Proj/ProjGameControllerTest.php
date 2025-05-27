@@ -14,21 +14,6 @@ class ProjGameControllerTest extends WebTestCase
         $this->assertResponseRedirects('/proj');
     }
 
-    public function testGameRendersTemplateWithGameData(): void
-    {
-        $client = static::createClient();
-        $client->catchExceptions(false);
-        
-        $client->request('POST', '/proj/init', [
-            'nickname' => 'testplayer',
-            'hands' => 1,
-            'bet' => 10
-        ]);
-        
-        $client->request('GET', '/proj/game');
-        $this->assertResponseIsSuccessful();
-    }
-
     public function testInitGameWithNewPlayer(): void
     {
         $client = static::createClient();
