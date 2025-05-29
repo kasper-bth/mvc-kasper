@@ -46,7 +46,7 @@ class Player
         $this->handBets = [];
     }
 
-/**
+    /**
      * Get the sum of all current bets as integer
      * @return int Sum of all bets
      */
