@@ -4,6 +4,11 @@
 
 {% block body %}
     <div class="container">
+        {% for message in app.flashes('error') %}
+            <div class="alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
         <h1>Uppdatera för nytt spel!</h1>
         
         <form action="{{ path('proj_new_round') }}" method="post">
@@ -16,10 +21,10 @@
                 </select>
             </div>
             <div>
-                <label for="bet">Insats (10-{{ player.getBankroll() }}):</label>
+                <label for="bet">Insats (10-{{ (player.getBankroll() / hands|default(1))|round(0, 'floor') }}):</label>
                 <input type="number" id="bet" name="bet" 
-                       min="10" max="{{ player.getBankroll() }}" 
-                       value="10" required>
+                    min="10" max="{{ (player.getBankroll() / hands|default(1))|round(0, 'floor') }}" 
+                    value="10" required>
             </div>
             <button type="submit">Starta spelet</button>
         </form>

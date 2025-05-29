@@ -3,144 +3,57 @@
 namespace App\Proj;
 
 use PHPUnit\Framework\TestCase;
-use App\Proj\GameState;
-use App\Proj\Player;
-use App\Proj\ProjHand;
-use App\Proj\Proj;
-use App\Proj\ScoreCalculator;
 
 class GameStateTest extends TestCase
 {
+    private GameState $state;
+    private Player $player;
+
+    protected function setUp(): void
+    {
+        $this->state = new GameState();
+        $this->player = new Player('test');
+    }
+
     public function testInitialState(): void
     {
-        $state = new GameState();
-        $this->assertInstanceOf(ProjHand::class, $state->getBankHand());
-        $this->assertFalse($state->isGameOver());
+        $this->assertInstanceOf(ProjHand::class, $this->state->getBankHand());
+        $this->assertEquals(0, $this->state->getBankScore());
+        $this->assertFalse($this->state->isGameOver());
     }
 
     public function testEndGame(): void
     {
-        $state = new GameState();
-        $state->endGame();
-        $this->assertTrue($state->isGameOver());
+        $this->state->endGame();
+        $this->assertTrue($this->state->isGameOver());
     }
 
-    public function testHasBlackjack(): void
+    public function testBankScoreAccessors(): void
     {
-        $state = new GameState();
-        $hand = new ProjHand();
-        $hand->addCard(new Proj('hearts', 'ace'));
-        $hand->addCard(new Proj('diamonds', 'king'));
+        $this->state->setBankScore(17);
+        $this->assertEquals(17, $this->state->getBankScore());
         
-        $this->assertTrue($state->hasBlackjack($hand));
-        
-        $hand->addCard(new Proj('spades', '2'));
-        $this->assertFalse($state->hasBlackjack($hand));
+        $this->state->setBankScore(21);
+        $this->assertEquals(21, $this->state->getBankScore());
     }
 
-    public function testEvaluateResults(): void
+    public function testInitialDealComplete(): void
     {
-        $state = new GameState();
-        $player = new Player('test');
-        $playerHand = new ProjHand();
-        $bankHand = new ProjHand();
-        $calculator = new ScoreCalculator();
-        
-        $playerHand->addCard(new Proj('hearts', '10'));
-        $playerHand->addCard(new Proj('diamonds', '10'));
-        $playerHand->addCard(new Proj('spades', '2'));
-        $player->placeBet(10);
-        $state->evaluateResults($player, [$playerHand], $bankHand, $calculator);
-        $this->assertEquals(990, $player->getBankroll());
-        
-        $player = new Player('test');
-        $playerHand = new ProjHand();
-        $bankHand = new ProjHand();
-        $playerHand->addCard(new Proj('hearts', '10'));
-        $bankHand->addCard(new Proj('hearts', '10'));
-        $bankHand->addCard(new Proj('diamonds', '10'));
-        $bankHand->addCard(new Proj('spades', '2'));
-        $player->placeBet(10);
-        $state->evaluateResults($player, [$playerHand], $bankHand, $calculator);
-        $this->assertEquals(1010, $player->getBankroll());
-        
-        $player = new Player('test');
-        $playerHand = new ProjHand();
-        $bankHand = new ProjHand();
-        $playerHand->addCard(new Proj('hearts', 'ace'));
-        $playerHand->addCard(new Proj('diamonds', 'king'));
-        $bankHand->addCard(new Proj('hearts', '10'));
-        $bankHand->addCard(new Proj('diamonds', '7'));
-        $player->placeBet(10);
-        $state->evaluateResults($player, [$playerHand], $bankHand, $calculator);
-        $this->assertEquals(1015, $player->getBankroll());
+        $this->assertTrue($this->state->isInitialDeal());
+        $this->state->markInitialDealComplete();
+        $this->assertFalse($this->state->isInitialDeal());
     }
 
-    public function testGetBankScore(): void
+    public function testBustedChecks(): void
     {
-        $state = new GameState();
-        $hand = new ProjHand();
-        $hand->addCard(new Proj('hearts', '10'));
-        $hand->addCard(new Proj('diamonds', '5'));
-        $state->setBankScore(15);
-        $this->assertEquals(15, $state->getBankScore());
+        $this->assertTrue($this->state->isBusted(22));
+        $this->assertFalse($this->state->isBusted(21));
     }
 
-    public function testSetBankScore(): void
+    public function testHandResults(): void
     {
-        $state = new GameState();
-        $state->setBankScore(17);
-        $this->assertEquals(17, $state->getBankScore());
-    }
-
-    public function testEvaluateResultsPlayerWins(): void
-    {
-        $state = new GameState();
-        $player = new Player('test');
-        $playerHand = new ProjHand();
-        $bankHand = new ProjHand();
-        $calculator = new ScoreCalculator();
-        
-        $playerHand->addCard(new Proj('hearts', '10'));
-        $playerHand->addCard(new Proj('diamonds', '8'));
-        $bankHand->addCard(new Proj('hearts', '10'));
-        $bankHand->addCard(new Proj('diamonds', '7'));
-        $player->placeBet(10);
-        $state->evaluateResults($player, [$playerHand], $bankHand, $calculator);
-        $this->assertEquals(1010, $player->getBankroll());
-    }
-
-    public function testEvaluateResultsBankWins(): void
-    {
-        $state = new GameState();
-        $player = new Player('test');
-        $playerHand = new ProjHand();
-        $bankHand = new ProjHand();
-        $calculator = new ScoreCalculator();
-        
-        $playerHand->addCard(new Proj('hearts', '10'));
-        $playerHand->addCard(new Proj('diamonds', '7'));
-        $bankHand->addCard(new Proj('hearts', '10'));
-        $bankHand->addCard(new Proj('diamonds', '8'));
-        $player->placeBet(10);
-        $state->evaluateResults($player, [$playerHand], $bankHand, $calculator);
-        $this->assertEquals(990, $player->getBankroll());
-    }
-
-    public function testEvaluateResultsPush(): void
-    {
-        $state = new GameState();
-        $player = new Player('test');
-        $playerHand = new ProjHand();
-        $bankHand = new ProjHand();
-        $calculator = new ScoreCalculator();
-        
-        $playerHand->addCard(new Proj('hearts', '10'));
-        $playerHand->addCard(new Proj('diamonds', '7'));
-        $bankHand->addCard(new Proj('hearts', '10'));
-        $bankHand->addCard(new Proj('diamonds', '7'));
-        $player->placeBet(10);
-        $state->evaluateResults($player, [$playerHand], $bankHand, $calculator);
-        $this->assertEquals(1000, $player->getBankroll());
+        $results = ['player', 'bank'];
+        $this->state->setHandResults($results);
+        $this->assertEquals($results, $this->state->getHandResults());
     }
 }

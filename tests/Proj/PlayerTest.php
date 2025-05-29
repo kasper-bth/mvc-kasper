@@ -40,12 +40,55 @@ class PlayerTest extends TestCase
         $this->assertEquals(1000, $player->getBankroll());
     }
 
-    public function testUpdateBet(): void
+    public function testMultipleHandBets(): void
     {
         $player = new Player('test');
+        
+        $this->assertTrue($player->placeBet(100, 0));
+        $this->assertTrue($player->placeBet(100, 1));
+        $this->assertEquals(800, $player->getBankroll());
+        
+        $player->win(1.0, 0);
+        $this->assertEquals(1000, $player->getBankroll());
+        $this->assertEquals(100, $player->getBetForHand(1));
+    }
+
+    public function testGetTotalWinsAndLosses(): void
+    {
+        $player = new Player('test');
+        
         $player->placeBet(100);
-        $this->assertTrue($player->updateBet(50));
-        $this->assertEquals(950, $player->getBankroll());
-        $this->assertEquals(50, $player->getCurrentBet());
+        $player->win();
+        $this->assertEquals(100, $player->getTotalWins());
+        
+        $player->placeBet(100);
+        $player->lose();
+        $this->assertEquals(100, $player->getTotalLosses());
+    }
+
+    public function testClearBets(): void
+    {
+        $player = new Player('test');
+        $player->placeBet(100, 0);
+        $player->placeBet(100, 1);
+        
+        $this->assertEquals(800, $player->getBankroll());
+        $this->assertEquals(100, $player->getBetForHand(0));
+        $this->assertEquals(100, $player->getBetForHand(1));
+        
+        if (method_exists($player, 'clearBets')) {
+            $player->clearBets();
+            $this->assertEquals(0, $player->getCurrentBet());
+            $this->assertEquals(800, $player->getBankroll());
+        }
+    }
+
+    public function testCanPlaceBet(): void
+    {
+        $player = new Player('test', 200);
+        
+        $this->assertTrue($player->canPlaceBet(100, 1));
+        $this->assertTrue($player->canPlaceBet(50, 3));
+        $this->assertFalse($player->canPlaceBet(100, 3));
     }
 }

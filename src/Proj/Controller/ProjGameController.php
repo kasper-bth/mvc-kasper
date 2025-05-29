@@ -44,16 +44,17 @@ class ProjGameController extends AbstractController
             ? unserialize($players[$nickname])
             : new Player($nickname);
 
-        if (!$player->placeBet($betAmount)) {
-            $this->addFlash('error', 'Ogiltig insats');
-            return $this->redirectToRoute('proj_home');
-        }
-
         $deck = new ProjDeck();
         $game = new ProjGame($deck, $player);
 
-        for ($i = 1; $i < $numHands; $i++) {
-            $game->addHand();
+        for ($i = 0; $i < $numHands; $i++) {
+            if ($i > 0) {
+                $game->addHand();
+            }
+            if (!$player->placeBet($betAmount, $i)) {
+                $this->addFlash('error', 'Ogiltig insats');
+                return $this->redirectToRoute('proj_home');
+            }
         }
 
         $this->saveGameState($session, $game, $player, $nickname);
@@ -89,7 +90,7 @@ class ProjGameController extends AbstractController
     {
         $players = $session->get('blackjack_players', []);
 
-        $players[$nickname] = serialize(clone $player);
+        $players[$nickname] = serialize($player);
 
         $session->set('blackjack_players', $players);
         $session->set('blackjack_game', $game);
@@ -112,21 +113,32 @@ class ProjGameController extends AbstractController
 
         $numHands = (int)$request->request->get('hands', 1);
         $betAmount = (int)$request->request->get('bet', 10);
+        $totalBet = $betAmount * $numHands;
 
-        if (!$player->placeBet($betAmount)) {
-            $this->addFlash('error', 'Ogiltig insats');
+        $player->clearBets();
+
+        if ($totalBet > $player->getBankroll()) {
+            $this->addFlash('error', 'Ogiltig insats - för låg bankroll');
             return $this->redirectToRoute('proj_config');
         }
 
         $deck = new ProjDeck();
         $game = new ProjGame($deck, $player);
 
-        for ($i = 1; $i < $numHands; $i++) {
-            $game->addHand();
+        for ($i = 0; $i < $numHands; $i++) {
+            if ($i > 0) {
+                $game->addHand();
+            }
+            if (!$player->placeBet($betAmount, $i)) {
+                $player->clearBets();
+                $this->addFlash('error', 'Ogiltig insats');
+                return $this->redirectToRoute('proj_config');
+            }
         }
 
-        $session->set('blackjack_game', $game);
         $session->set('blackjack_player', $player);
+        $session->set('blackjack_game', $game);
+        $session->save();
 
         return $this->redirectToRoute('proj_game');
     }

@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Proj\ProjDeck;
+use App\Proj\ProjGame;
 
 class ProjPlayerController extends AbstractController
 {
@@ -15,6 +17,11 @@ class ProjPlayerController extends AbstractController
     {
         $player = $session->get('blackjack_player');
         if (!$player) {
+            return $this->redirectToRoute('proj_home');
+        }
+
+        if ($player->getBankroll() <= 0) {
+            $this->addFlash('error', 'Din bankroll är tom, starta ett nytt spel.');
             return $this->redirectToRoute('proj_home');
         }
 
@@ -27,27 +34,41 @@ class ProjPlayerController extends AbstractController
     #[Route("/proj/update-config", name: "proj_update_config", methods: ['POST'])]
     public function updateConfig(Request $request, SessionInterface $session): Response
     {
-        $game = $session->get('blackjack_game');
         $player = $session->get('blackjack_player');
 
-        if ($game && $player) {
-            $numHands = (int)$request->request->get('hands');
-            $betAmount = (int)$request->request->get('bet');
-
-            $currentHands = count($game->getPlayerHands());
-            if ($numHands > $currentHands) {
-                for ($i = $currentHands; $i < $numHands; $i++) {
-                    $game->addHand();
-                }
-            }
-
-            if (!$player->updateBet($betAmount)) {
-                $this->addFlash('error', 'Ogiltig insats');
-            }
-
-            $session->set('blackjack_game', $game);
-            $session->set('blackjack_player', $player);
+        if (!$player) {
+            return $this->redirectToRoute('proj_home');
         }
+
+        $numHands = (int)$request->request->get('hands', 1);
+        $betAmount = (int)$request->request->get('bet', 10);
+        $totalBet = $betAmount * $numHands;
+
+        if ($totalBet > $player->getBankroll()) {
+            $this->addFlash('error', 'Ogiltig insats - för låg bankroll');
+            return $this->redirectToRoute('proj_config');
+        }
+
+        $player->clearBets();
+
+        $deck = new ProjDeck();
+        $newGame = new ProjGame($deck, $player);
+
+        for ($i = 0; $i < $numHands; $i++) {
+            if ($i > 0) {
+                $newGame->addHand();
+            }
+            if (!$player->placeBet($betAmount, $i)) {
+                $this->addFlash('error', 'Ogiltig insats');
+                return $this->redirectToRoute('proj_config');
+            }
+        }
+
+        $players = $session->get('blackjack_players', []);
+        $players[$player->getNickname()] = serialize($player);
+        $session->set('blackjack_players', $players);
+        $session->set('blackjack_game', $newGame);
+        $session->set('blackjack_player', $player);
 
         return $this->redirectToRoute('proj_game');
     }

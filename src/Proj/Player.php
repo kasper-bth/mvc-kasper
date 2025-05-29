@@ -8,7 +8,7 @@ class Player
     private int $bankroll;
     private int $totalWins = 0;
     private int $totalLosses = 0;
-    private int $currentBet = 0;
+    private array $handBets = [];
 
     public function __construct(string $nickname, int $initialBankroll = 1000)
     {
@@ -26,39 +26,56 @@ class Player
         return $this->bankroll;
     }
 
-    public function placeBet(int $amount): bool
+    public function canPlaceBet(int $amount, int $numHands = 1): bool
+    {
+        return ($amount * $numHands) <= $this->bankroll;
+    }
+
+    public function placeBet(int $amount, int $handIndex = 0): bool
     {
         if ($amount <= 0 || $amount > $this->bankroll) {
             return false;
         }
-        $this->currentBet = $amount;
+        $this->handBets[$handIndex] = $amount;
         $this->bankroll -= $amount;
         return true;
     }
 
-    public function win(float $multiplier = 1.0): void
+    public function clearBets(): void
     {
-        $winnings = (int)($this->currentBet * $multiplier);
-        $this->bankroll += $this->currentBet + $winnings;
-        $this->totalWins += $winnings;
-        $this->currentBet = 0;
-    }
-
-    public function lose(): void
-    {
-        $this->totalLosses += $this->currentBet;
-        $this->currentBet = 0;
-    }
-
-    public function push(): void
-    {
-        $this->bankroll += $this->currentBet;
-        $this->currentBet = 0;
+        $this->handBets = [];
     }
 
     public function getCurrentBet(): int
     {
-        return $this->currentBet;
+        return array_sum($this->handBets);
+    }
+
+    public function getBetForHand(int $handIndex): int
+    {
+        return $this->handBets[$handIndex] ?? 0;
+    }
+
+    public function win(float $multiplier = 1.0, int $handIndex = 0): void
+    {
+        $bet = $this->handBets[$handIndex] ?? 0;
+        $winnings = (int)round($bet * $multiplier);
+        $this->bankroll += $bet + $winnings;
+        $this->totalWins += $winnings;
+        unset($this->handBets[$handIndex]);
+    }
+
+    public function lose(int $handIndex = 0): void
+    {
+        $bet = $this->handBets[$handIndex] ?? 0;
+        $this->totalLosses += $bet;
+    }
+
+    public function push(int $handIndex = 0): void
+    {
+        $bet = $this->handBets[$handIndex] ?? 0;
+        $this->bankroll += $bet;
+        unset($this->handBets[$handIndex]);
     }
 
     public function getTotalWins(): int
@@ -69,19 +86,5 @@ class Player
     public function getTotalLosses(): int
     {
         return $this->totalLosses;
-    }
-
-    public function updateBet(int $newAmount): bool
-    {
-        $this->bankroll += $this->currentBet;
-
-        if ($newAmount <= 0 || $newAmount > $this->bankroll) {
-            $this->bankroll -= $this->currentBet;
-            return false;
-        }
-
-        $this->currentBet = $newAmount;
-        $this->bankroll -= $newAmount;
-        return true;
     }
 }

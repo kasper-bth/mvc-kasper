@@ -10,12 +10,14 @@ class ProjGame
     private Player $player;
     private ProjDeck $deck;
     private ScoreCalculator $scoreCalculator;
+    private GameResult $gameResult;
 
     public function __construct(ProjDeck $deck, Player $player)
     {
         $this->gameState = new GameState();
         $this->handManager = new ProjHandManager();
         $this->bankStrategy = new BankStrategy();
+        $this->gameResult = new GameResult();
         $this->scoreCalculator = new ScoreCalculator();
         $this->player = $player;
         $this->deck = $deck;
@@ -69,12 +71,13 @@ class ProjGame
 
     private function evaluateFinalResults(): void
     {
-        $this->gameState->evaluateResults(
+        $results = $this->gameResult->evaluateResults(
             $this->player,
             $this->handManager->getAllHands(),
             $this->gameState->getBankHand(),
-            $this->scoreCalculator
+            $this->gameState->isInitialDeal()
         );
+        $this->gameState->setHandResults($results);
     }
 
     private function hasAnyValidHand(): bool
@@ -86,6 +89,7 @@ class ProjGame
         }
         return false;
     }
+
 
     public function playerStop(): void
     {
@@ -103,12 +107,7 @@ class ProjGame
         }
 
         $this->gameState->endGame();
-        $this->gameState->evaluateResults(
-            $this->player,
-            $this->handManager->getAllHands(),
-            $this->gameState->getBankHand(),
-            $this->scoreCalculator
-        );
+        $this->evaluateFinalResults();
     }
 
     public function addHand(): bool
@@ -175,9 +174,13 @@ class ProjGame
 
     public function getWinner(): string
     {
-        $bankScore = $this->getBankScore();
+        if ($this->allHandsBusted()) {
+            return 'bank';
+        }
 
+        $bankScore = $this->getBankScore();
         $bestPlayerScore = 0;
+
         foreach ($this->getPlayerHands() as $hand) {
             $handScore = $this->getHandScore($hand);
             if ($handScore <= 21 && $handScore > $bestPlayerScore) {
@@ -185,32 +188,40 @@ class ProjGame
             }
         }
 
-        if ($bestPlayerScore === 0) {
-            return 'bank';
+        return $this->determineHandResult($bestPlayerScore, $bankScore, $this->getPlayerHands()[0]);
+    }
+
+    public function getAllResults(): array
+    {
+        $results = [];
+        $bankScore = $this->getBankScore();
+
+        foreach ($this->getPlayerHands() as $hand) {
+            $handScore = $this->getHandScore($hand);
+            $results[] = $this->determineHandResult($handScore, $bankScore, $hand);
         }
 
-        $result = $this->determineHandResult($bestPlayerScore, $bankScore, $this->getPlayerHands()[0]);
+        return $results;
+    }
 
-        return $result;
+    private function allHandsBusted(): bool
+    {
+        foreach ($this->getPlayerHands() as $hand) {
+            if ($this->getHandScore($hand) <= 21) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private function determineHandResult(int $playerScore, int $bankScore, ProjHand $hand): string
     {
-        $playerHasBlackjack = $this->gameState->hasBlackjack($hand);
-        $bankHasBlackjack = $this->gameState->hasBlackjack($this->getBankHand());
-
-        return match (true) {
-            $bankScore > 21 => 'player',
-            $playerHasBlackjack && !$bankHasBlackjack => 'player',
-            $playerHasBlackjack && $bankHasBlackjack => 'push',
-            $playerScore === $bankScore => $this->handleEqualScores($bankScore),
-            $playerScore > $bankScore => 'player',
-            default => 'bank'
-        };
-    }
-
-    private function handleEqualScores(int $bankScore): string
-    {
-        return in_array($bankScore, [17, 18, 19]) ? 'bank' : 'push';
+        return $this->gameResult->determineResult(
+            $playerScore,
+            $bankScore,
+            $hand,
+            $this->getBankHand(),
+            $this->gameState->isInitialDeal()
+        );
     }
 }

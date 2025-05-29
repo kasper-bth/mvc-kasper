@@ -5,14 +5,14 @@ namespace App\Proj;
 class GameState
 {
     private ProjHand $bankHand;
-    private ScoreCalculator $scoreCalculator;
     private int $bankScore = 0;
     private bool $gameOver = false;
+    private bool $initialDeal = true;
+    private array $handResults = [];
 
     public function __construct()
     {
         $this->bankHand = new ProjHand();
-        $this->scoreCalculator = new ScoreCalculator();
     }
 
     public function getBankHand(): ProjHand
@@ -40,57 +40,28 @@ class GameState
         $this->gameOver = true;
     }
 
-    public function evaluateResults(Player $player, array $playerHands, ProjHand $bankHand, ScoreCalculator $calculator): void
+    public function markInitialDealComplete(): void
     {
-        $bankScore = $calculator->calculate($bankHand);
-
-        foreach ($playerHands as $hand) {
-            $handScore = $calculator->calculate($hand);
-            $this->evaluateSingleHand($player, $hand, $handScore, $bankHand, $bankScore);
-        }
+        $this->initialDeal = false;
     }
 
-    private function evaluateSingleHand(Player $player, ProjHand $hand, int $handScore, ProjHand $bankHand, int $bankScore): void
+    public function setHandResults(array $results): void
     {
-        if ($handScore > 21) {
-            $player->lose();
-            return;
-        }
-
-        if ($bankScore > 21) {
-            $player->win();
-            return;
-        }
-
-        if ($this->hasBlackjack($hand) && !$this->hasBlackjack($bankHand)) {
-            $player->win(1.5);
-            return;
-        }
-
-        if ($handScore > $bankScore) {
-            $player->win();
-            return;
-        }
-
-        if ($bankScore > $handScore) {
-            $player->lose();
-            return;
-        }
-
-        $player->push();
+        $this->handResults = $results;
     }
 
-    public function hasBlackjack(ProjHand $hand): bool
+    public function getHandResults(): array
     {
-        if ($hand->getNumberCards() != 2) {
-            return false;
-        }
+        return $this->handResults;
+    }
 
-        $values = $hand->getValues();
-        return (in_array('ace', $values) &&
-                (in_array('10', $values) ||
-                in_array('jack', $values) ||
-                in_array('queen', $values) ||
-                in_array('king', $values)));
+    public function isInitialDeal(): bool
+    {
+        return $this->initialDeal;
+    }
+
+    public function isBusted(int $score): bool
+    {
+        return $score > 21;
     }
 }

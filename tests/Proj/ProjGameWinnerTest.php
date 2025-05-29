@@ -6,75 +6,46 @@ use PHPUnit\Framework\TestCase;
 
 class ProjGameWinnerTest extends TestCase
 {
-    public function testPlayerWinsWithHigherScore(): void
+    public function testAllWinConditions(): void
     {
-        $playerHand = new ProjHand();
-        $playerHand->addCard(new Proj('hearts', '10'));
-        $playerHand->addCard(new Proj('diamonds', '10'));
-        
-        $bankHand = new ProjHand();
-        $bankHand->addCard(new Proj('clubs', '10'));
-        $bankHand->addCard(new Proj('spades', '6'));
-        
-        $winner = $this->determineWinner($playerHand, $bankHand);
-        $this->assertEquals('player', $winner);
+        $this->assertEquals('player', $this->determineWinner(
+            $this->createHand(['10', '10']), 
+            $this->createHand(['10', '6'])
+        ));
+
+        $this->assertEquals('bank', $this->determineWinner(
+            $this->createHand(['10', '7']),
+            $this->createHand(['10', '8'])
+        ));
+
+        $this->assertEquals('push', $this->determineWinner(
+            $this->createHand(['10', '10']),
+            $this->createHand(['10', '10'])
+        ));
+
+        $this->assertEquals('blackjack', $this->determineWinner(
+            $this->createHand(['ace', 'king']),
+            $this->createHand(['10', '7'])
+        ));
+
+        $this->assertEquals('player', $this->determineWinner(
+            $this->createHand(['10', '8']),
+            $this->createHand(['10', '10', '2'])
+        ));
+
+        $this->assertEquals('bank', $this->determineWinner(
+            $this->createHand(['10', '7']),
+            $this->createHand(['10', '7'])
+        ));
     }
 
-    public function testBankWinsWithHigherScore(): void
+    private function createHand(array $values): ProjHand
     {
-        $playerHand = new ProjHand();
-        $playerHand->addCard(new Proj('hearts', '10'));
-        $playerHand->addCard(new Proj('diamonds', '7'));
-        
-        $bankHand = new ProjHand();
-        $bankHand->addCard(new Proj('clubs', '10'));
-        $bankHand->addCard(new Proj('spades', '8'));
-        
-        $winner = $this->determineWinner($playerHand, $bankHand);
-        $this->assertEquals('bank', $winner);
-    }
-
-    public function testPushWhenScoresEqual(): void
-    {
-        $playerHand = new ProjHand();
-        $playerHand->addCard(new Proj('hearts', '10'));
-        $playerHand->addCard(new Proj('diamonds', '10'));
-        
-        $bankHand = new ProjHand();
-        $bankHand->addCard(new Proj('clubs', '10'));
-        $bankHand->addCard(new Proj('spades', '10'));
-        
-        $winner = $this->determineWinner($playerHand, $bankHand);
-        $this->assertEquals('push', $winner);
-    }
-
-    public function testPlayerWinsWithBlackjack(): void
-    {
-        $playerHand = new ProjHand();
-        $playerHand->addCard(new Proj('hearts', 'ace'));
-        $playerHand->addCard(new Proj('diamonds', 'king'));
-        
-        $bankHand = new ProjHand();
-        $bankHand->addCard(new Proj('clubs', '10'));
-        $bankHand->addCard(new Proj('spades', '7'));
-        
-        $winner = $this->determineWinner($playerHand, $bankHand);
-        $this->assertEquals('player', $winner);
-    }
-
-    public function testPlayerWinsWhenBankBusts(): void
-    {
-        $playerHand = new ProjHand();
-        $playerHand->addCard(new Proj('hearts', '10'));
-        $playerHand->addCard(new Proj('diamonds', '8'));
-        
-        $bankHand = new ProjHand();
-        $bankHand->addCard(new Proj('clubs', '10'));
-        $bankHand->addCard(new Proj('spades', '10'));
-        $bankHand->addCard(new Proj('hearts', '2'));
-        
-        $winner = $this->determineWinner($playerHand, $bankHand);
-        $this->assertEquals('player', $winner);
+        $hand = new ProjHand();
+        foreach ($values as $value) {
+            $hand->addCard(new Proj('hearts', $value));
+        }
+        return $hand;
     }
 
     private function determineWinner(ProjHand $playerHand, ProjHand $bankHand): string
@@ -83,17 +54,15 @@ class ProjGameWinnerTest extends TestCase
         $player = new Player('test');
         $game = new ProjGame($deck, $player);
         
-        $game->addHand();
         foreach ($playerHand->getCards() as $card) {
             $game->getCurrentHand()->addCard($card);
         }
         
         foreach ($bankHand->getCards() as $card) {
-            $game->getGameState()->getBankHand()->addCard($card);
+            $game->getBankHand()->addCard($card);
         }
         
         $game->getGameState()->endGame();
-        
         return $game->getWinner();
     }
 }

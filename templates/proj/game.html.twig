@@ -49,6 +49,18 @@
                         {% for card in hand.getCards() %}
                             <span class="card {{ card.getColor() }}">{{ card.getAsString() }}</span>
                         {% endfor %}
+                        <p>
+                            {% set handResult = game.getAllResults()[loop.index0] %}
+                            {% if handResult == 'player' %}
+                                {{ player.getNickname() }} vinner!
+                            {% elseif handResult == 'blackjack' %}
+                                Blackjack! {{ player.getNickname() }} vinner 1.5x!
+                            {% elseif handResult == 'bank' %}
+                                Banken vinner!
+                            {% else %}
+                                Lika!
+                            {% endif %}
+                        </p>
                     </div>
                 {% endfor %}
                 
@@ -60,16 +72,6 @@
                 </div>
                 
                 <div>
-                    <h3>Resultat: 
-                        {% if game.getWinner() == 'player' %}
-                            {{ player.getNickname() }} vinner!
-                        {% elseif game.getWinner() == 'bank' %}
-                            Banken vinner!
-                        {% else %}
-                            Lika!
-                        {% endif %}
-                    </h3>
-                    
                     <div>
                         {% if player.getBankroll() > 0 %}
                             <a href="{{ path('proj_config') }}">Spela igen</a>

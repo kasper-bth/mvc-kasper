@@ -49,7 +49,7 @@
 <div class="page">
     <div class="content content-first">
         <div class="report-details">
-            Created at 2025-05-27 19:06:14        , with PHPMetrics v2.8.2 (<a href="https://twitter.com/Halleck45">Jean-François Lépine</a>).
+            Created at 2025-05-29 14:57:55        , with PHPMetrics v2.8.2 (<a href="https://twitter.com/Halleck45">Jean-François Lépine</a>).
         </div>
 
         
@@ -310,9 +310,7 @@
         "name": "\\App\\Proj\\GameState",
         "size": 3000,
         "relations": [
-            "\\App\\Proj\\ProjHand",
-            "\\App\\Proj\\ScoreCalculator",
-            "\\App\\Proj\\Player"
+            "\\App\\Proj\\ProjHand"
         ]
     },
     {
@@ -329,6 +327,15 @@
             "\\App\\Proj\\ProjHand",
             "\\App\\Proj\\ProjDeck",
             "\\App\\Proj\\ScoreCalculator"
+        ]
+    },
+    {
+        "name": "\\App\\Proj\\GameResult",
+        "size": 3000,
+        "relations": [
+            "\\App\\Proj\\ScoreCalculator",
+            "\\App\\Proj\\Player",
+            "\\App\\Proj\\ProjHand"
         ]
     },
     {
@@ -392,7 +399,9 @@
             "\\Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController",
             "\\Symfony\\Component\\HttpFoundation\\Response",
             "\\Symfony\\Component\\HttpFoundation\\Session\\SessionInterface",
-            "\\Symfony\\Component\\HttpFoundation\\Request"
+            "\\Symfony\\Component\\HttpFoundation\\Request",
+            "\\App\\Proj\\ProjDeck",
+            "\\App\\Proj\\ProjGame"
         ]
     },
     {
