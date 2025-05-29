@@ -1048,7 +1048,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Proj\\GameResult\u003A\u003AapplyResultToPlayer\u0028\u0029",
             "name": "applyResultToPlayer",
-            "summary": "",
+            "summary": "Apply\u0020game\u0020result\u0020to\u0020player\u0027s\u0020bankroll\u0020and\u0020stats",
             "url": "classes/App-Proj-GameResult.html#method_applyResultToPlayer"
         },                {
             "fqsen": "\\App\\Proj\\GameResult\u003A\u003AcompareScoresWithPushRule\u0028\u0029",
@@ -1183,7 +1183,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Proj\\Player\u003A\u003AgetCurrentBet\u0028\u0029",
             "name": "getCurrentBet",
-            "summary": "",
+            "summary": "Get\u0020the\u0020sum\u0020of\u0020all\u0020current\u0020bets\u0020as\u0020integer",
             "url": "classes/App-Proj-Player.html#method_getCurrentBet"
         },                {
             "fqsen": "\\App\\Proj\\Player\u003A\u003AgetBetForHand\u0028\u0029",
@@ -1193,17 +1193,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Proj\\Player\u003A\u003Awin\u0028\u0029",
             "name": "win",
-            "summary": "",
+            "summary": "Process\u0020a\u0020win\u0020for\u0020a\u0020specific\u0020hand",
             "url": "classes/App-Proj-Player.html#method_win"
         },                {
             "fqsen": "\\App\\Proj\\Player\u003A\u003Alose\u0028\u0029",
             "name": "lose",
-            "summary": "",
+            "summary": "Process\u0020a\u0020loss\u0020for\u0020a\u0020specific\u0020hand",
             "url": "classes/App-Proj-Player.html#method_lose"
         },                {
             "fqsen": "\\App\\Proj\\Player\u003A\u003Apush\u0028\u0029",
             "name": "push",
-            "summary": "",
+            "summary": "Process\u0020a\u0020push\u0020\u0028tie\u0029\u0020for\u0020a\u0020specific\u0020hand",
             "url": "classes/App-Proj-Player.html#method_push"
         },                {
             "fqsen": "\\App\\Proj\\Player\u003A\u003AgetTotalWins\u0028\u0029",

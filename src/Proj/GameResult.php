@@ -70,6 +70,13 @@ class GameResult
         return $playerHasBlackjack ? 'blackjack' : 'bank';
     }
 
+    /**
+     * Apply game result to player's bankroll and stats
+     * @param Player $player The player to update
+     * @param string $result The result ('player', 'blackjack', 'bank', or 'push')
+     * @param int $handIndex Index of the hand being evaluated
+     * @return void
+     */
     private function applyResultToPlayer(Player $player, string $result, int $handIndex): void
     {
         match ($result) {

@@ -46,9 +46,13 @@ class Player
         $this->handBets = [];
     }
 
+/**
+     * Get the sum of all current bets as integer
+     * @return int Sum of all bets
+     */
     public function getCurrentBet(): int
     {
-        return array_sum($this->handBets);
+        return (int)array_sum($this->handBets);
     }
 
     public function getBetForHand(int $handIndex): int
@@ -56,6 +60,12 @@ class Player
         return $this->handBets[$handIndex] ?? 0;
     }
 
+    /**
+     * Process a win for a specific hand
+     * @param float $multiplier Win multiplier (1.0 for normal win, 1.5 for blackjack)
+     * @param int $handIndex Index of the hand that won
+     * @return void
+     */
     public function win(float $multiplier = 1.0, int $handIndex = 0): void
     {
         $bet = $this->handBets[$handIndex] ?? 0;
@@ -65,12 +75,23 @@ class Player
         unset($this->handBets[$handIndex]);
     }
 
+    /**
+     * Process a loss for a specific hand
+     * @param int $handIndex Index of the hand that lost
+     * @return void
+     */
     public function lose(int $handIndex = 0): void
     {
         $bet = $this->handBets[$handIndex] ?? 0;
         $this->totalLosses += $bet;
+        unset($this->handBets[$handIndex]);
     }
 
+    /**
+     * Process a push (tie) for a specific hand
+     * @param int $handIndex Index of the hand that pushed
+     * @return void
+     */
     public function push(int $handIndex = 0): void
     {
         $bet = $this->handBets[$handIndex] ?? 0;
