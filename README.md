@@ -3,7 +3,7 @@
 ![En bild på mig](/public/img/jag.png "En bild på mig")
 
 # Detta är mitt github repo för kursen <a href="https://dbwebb.se/kurser/mvc-v2">mvc</a>
-Innehållet i detta repo är för kursen mvc. Här finns all kod som jag har skrivit för kursen mvc med olika taggar för att se hur min kodbas har ändrats under kursens gång samt hur kodbasen ser ut för slutet av kursen.
+Innehållet i detta repo är för kursen mvc. Här finns all kod som jag har skrivit för kursen mvc med olika taggar för att se hur min kodbas har ändrats under kursens gång samt hur kodbasen ser ut för slutet av kursen. Detta är ett symfony projekt som då använder symfony ramverket för att se mer om symfony kan man besöka deras hemsida <a href="https://symfony.com/"></a>.
 
 ## Starta upp projektet lokalt
 
@@ -13,7 +13,6 @@ För att köra det klonade repot lokalt kör `php -S localhost:8888 -t public` o
 
 ## Innehåll i detta repo
 
-- Kod för varje kursmoment.
 - Kod för min report sida.
 - Verisioner för varje del av kursmomentets gång.
 
@@ -27,6 +26,10 @@ För att köra det klonade repot lokalt kör `php -S localhost:8888 -t public` o
 - `/library` På denna route kan man använda en databas för att skapa böcker, uppdater böcker, ta bort böcker och se alla böcker.
 - `/metrics` På denna route finns det en analys om min kod där jag förbättrade och löste fel med koden.
 - `/api` På denna route kan man se alla API routes för kursen det finns många delssidor som man kan ta sig till.
-- `/proj` På denna route finns mitt projekt för denna kurs då jag har gjort ett blackjack spel och man blir tagen till en ny design och en egen del för just projektet.      
+- `/proj` På denna route finns mitt projekt för denna kurs då jag har gjort ett blackjack spel och man blir tagen till en ny design och en egen del för just projektet.
+
+## Annat
+- Under `docs` mappen i repot kan man nå index filer för både metrics och coverage där man kan se vad av koden blir testat och analys som genereras av phpmetrics.
+- Det finns flera composer scripts man kan köra om man står i roten av projektet. man kan köra `composer phpunit` för att köra tester, `composer phpdoc` för att generera dokumentation, `composer lint` för att kolla hur koden matchar efter linters, `composer csfix` för att fixa till kodstilen och generera metrics genom `composer phpmetrics`. 
 
 Hemsidan för detta projekt ligger på denna hemsida <a href="https://www.student.bth.se/~kahg24/dbwebb-kurser/mvc/me/report/public/">https://www.student.bth.se/~kahg24/dbwebb-kurser/mvc/me/report/public</a>
